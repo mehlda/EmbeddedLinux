@@ -1,5 +1,8 @@
-I have completed 6 of the 7 items. 
-I have not yet attached labels to my headers
+I have completed all 7 items. 
+
+See this page for ncurses install instructions: http://elinux.org/Install_ncurses
+
+
 
 My Etch-a-Sketch program uses the ncurses library. It can be compiled using
 the supplied makefile assuming that ncurses and gcc have been installed
