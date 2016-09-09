@@ -106,7 +106,7 @@ function goUp(){
 //Handles a down input
 function goDown(){
     console.log("down");
-    if(curY !== height) {
+    if(curY !== height- 1) {
         curY++;
         s.usleep(debounceDelay);
         display[curY][curX] = "#";
@@ -128,7 +128,7 @@ function goLeft(){
 //Handles a right input
 function goRight(){
     console.log('right');
-    if(curX !== width) {
+    if(curX !== width - 1) {
         curX++;
         s.usleep(debounceDelay);
         display[curY][curX] = "#";
