@@ -1,0 +1,1 @@
+The javascript file etchAsketch.js is a simple implementation of the etch-a-sketch program. It prints a new grid to the terminal after each movement. Movement is triggered by button presses on the beaglebone.  Simply run the included install.sh file to install the needed npm packages and run the program
