@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
+//This file runs a simple terminal etch-a-sketch progrom on the Beaglebone Black
+//Author: David Mehl
+
 //Get the packages we need
 var b = require('bonescript');
 
 //We need command line UI, so set that up
 var rls = require('readline-sync');
 
-//Get the desired width and height from the user
+//Get the desired width and height of the grid from the user
 var width = parseInt(rls.question('Width of grid: '));
 var height = parseInt(rls.question('Height of grid: '));
 
@@ -98,7 +101,9 @@ function attQ(x){
 
 //Handles an up input
 function goUp(x){
+	//ignore if we just attached the interrupt
 	if(x.attached) return;
+	//Debounce the button
 	if(!upBool) return;
 	upBool = 0;
     console.log('up');
@@ -112,7 +117,9 @@ function goUp(x){
 
 //Handles a down input
 function goDown(x){
+	//ignore if we just attached the interrupt
 	if(x.attached) return;
+	//Debounce the button
 	if(!downBool) return;
 	downBool = 0;
     console.log("down");
@@ -126,7 +133,9 @@ function goDown(x){
 
 //Handles a left input
 function goLeft(x){
+	//ignore if we just attached the interrupt
 	if(x.attached) return;
+	//Debounce the button
 	if(!leftBool) return;
 	leftBool = 0;
     console.log('left');
@@ -140,7 +149,9 @@ function goLeft(x){
 
 //Handles a right input
 function goRight(x){
+	//ignore if we just attached the interrupt
 	if(x.attached) return;
+	//Debounce the button
 	if(!rightBool) return;
 	rightBool = 0;
     console.log('right');
@@ -153,7 +164,7 @@ function goRight(x){
 }
 
 
-//The following 4 functions are for debouncing the buttons, use as callbacks
+//The following 4 functions are for debouncing the buttons, used as callbacks
 function debounceUp(){
 	upBool = 1;
 }
@@ -179,6 +190,7 @@ function quit(x){
 	b.detachInterrupt(leftButton, detachCounter);
 	b.detachInterrupt(rightButton, detachCounter);
 	b.detachInterrupt(quitButton, detachCounter);
+	//When all 5 are detached, exit the process
 	while(detachCount < 5);
 	console.log('FInished cleaning up');
 	process.exit();
