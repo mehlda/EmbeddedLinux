@@ -2,9 +2,8 @@
 
 //Get the packages we need
 var b = require('bonescript');
-var s = require('sleep');
 
-//We need UI, so set that up
+//We need command line UI, so set that up
 var rls = require('readline-sync');
 
 //Get the desired width and height from the user
@@ -16,9 +15,19 @@ var upButton = 'P9_12';
 var downButton = 'P9_14';
 var leftButton = 'P9_16';
 var rightButton = 'P9_18';
+var quitButton = 'P9_22';
+
+//Declare debounce booleans
+var upBool = 1;
+var downBool = 1;
+var rightBool = 1;
+var leftBool = 1;
 
 //Debounce with 15 ms
-var debounceDelay = 15000;
+var debounceDelay = 15;
+
+//Keep track of the detached buttons when we quit
+var detachCount = 0;
 
 
 //Keep track of where we are
@@ -58,21 +67,12 @@ printDisplay(display);
 
 
 
-
-// for(var i in leds) {
-//     b.pinMode(leds[i], b.OUTPUT);
-// }
-
-// var state = b.LOW;
-// for(var i in leds) {
-//     b.digitalWrite(leds[i], state);
-// }
-
 //Set the button pins to inputs with pulldown resistors and call init functions
 b.pinMode(upButton, b.INPUT, 7, 'pulldown', 'fast', attU);
 b.pinMode(downButton, b.INPUT, 7, 'pulldown', 'fast', attD);
 b.pinMode(leftButton, b.INPUT, 7, 'pulldown', 'fast', attL);
 b.pinMode(rightButton, b.INPUT, 7, 'pulldown', 'fast', attR);
+b.pinMode(resetButton, b.INPUT, 7, 'pulldown', fast, attQ);
 
 //The following four functions handle attaching interrupts to the buttons
 function attU(x){
@@ -91,50 +91,102 @@ function attR(x){
     b.attachInterrupt(rightButton, true, b.RISING, goRight);
 }
 
+function attQ(x){
+	b.attachInterrupt(quitButton, true, b.RISING, quit);
+}
+
 
 //Handles an up input
 function goUp(){
+	if(x.attached) return;
+	if(!upBool) return;
+	upBool = 0;
     console.log('up');
     if(curY !== 0) {
         curY--;
-        s.usleep(debounceDelay);
         display[curY][curX] = "#";
         printDisplay(display);
     }
+    setTimeout(debounceUp, debounceDelay);
 }
 
 //Handles a down input
 function goDown(){
+	if(x.attached) return;
+	if(!downBool) return;
+	downBool = 0;
     console.log("down");
     if(curY !== height- 1) {
         curY++;
-        s.usleep(debounceDelay);
         display[curY][curX] = "#";
         printDisplay(display);
     }
+    setTimeout(debounceDown, debounceDelay);
 }
 
 //Handles a left input
 function goLeft(){
+	if(x.attached) return;
+	if(!leftBool) return;
+	leftBool = 0;
     console.log('left');
     if(curX !== 0) {
-        curX--; 
-        s.usleep(debounceDelay);
         display[curY][curX] = "#";
         printDisplay(display);
     }
+    setTimeout(debounceLeft, debounceDelay);
 }
 
 //Handles a right input
 function goRight(){
+	if(x.attached) return;
+	if(!rightBool) return;
+	rightBool = 0;
     console.log('right');
     if(curX !== width - 1) {
         curX++;
-        s.usleep(debounceDelay);
         display[curY][curX] = "#";
         printDisplay(display);
     }
-   
+    setTimeout(debounceRight, debounceDelay);
+}
+
+
+//The following 4 functions are for debouncing the buttons, use as callbacks
+function debounceUp(){
+	upBool = 1;
+}
+
+function debounceDown(){
+	downBool = 1;
+}
+
+function debounceLeft(){
+	leftBool = 1;
+}
+
+function debounceRight(){
+	rightBool = 1;
+}
+
+//Release the interrupts on the pins and quit
+function quit(x){
+	if(x.attached) return;
+	console.log('Cleaning up...');
+	b.detachInterrupt(upButton, detachCounter);
+	b.detachInterrupt(downButton, detachCounter);
+	b.detachInterrupt(leftButton, detachCounter);
+	b.detachInterrupt(rightButton, detachCounter);
+	b.detachInterrupt(quitButton, detachCounter);
+	while(detachCount < 5);
+	console.log('FInished cleaning up');
+	exit();
+}
+
+//Count how many pins we detached
+function detachCounter(x){
+	detachCount++;
+	console.log(x.err);
 }
 
 
