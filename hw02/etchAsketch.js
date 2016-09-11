@@ -72,7 +72,7 @@ b.pinMode(upButton, b.INPUT, 7, 'pulldown', 'fast', attU);
 b.pinMode(downButton, b.INPUT, 7, 'pulldown', 'fast', attD);
 b.pinMode(leftButton, b.INPUT, 7, 'pulldown', 'fast', attL);
 b.pinMode(rightButton, b.INPUT, 7, 'pulldown', 'fast', attR);
-b.pinMode(quitButton, b.INPUT, 7, 'pulldown', fast, attQ);
+b.pinMode(quitButton, b.INPUT, 7, 'pulldown', 'fast', attQ);
 
 //The following four functions handle attaching interrupts to the buttons
 function attU(x){
