@@ -1,7 +1,6 @@
 #!/bin/bash
-echo install sleep package
-npm install sleep
-echo install readline-sync package
+echo install readline-sync node.js package
 npm install readline-sync
 chmod +x etchAsketch.js
+echo Running...
 ./etchAsketch.js

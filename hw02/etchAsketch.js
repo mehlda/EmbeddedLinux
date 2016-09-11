@@ -50,7 +50,7 @@ for(var i = 0; i < display.length; i++){
 
 //Prints the given array to the terminal
 function printDisplay(disp){
-    process.stdout.write('Use Control-C to quit\n');
+    process.stdout.write('Use quit button or Control-C to quit\n');
 	for(var k = 0; k < disp[0].length; k++){
 		process.stdout.write('*');
 	}
