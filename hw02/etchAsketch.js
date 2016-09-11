@@ -131,6 +131,7 @@ function goLeft(x){
 	leftBool = 0;
     console.log('left');
     if(curX !== 0) {
+    	curX--;
         display[curY][curX] = "#";
         printDisplay(display);
     }
@@ -180,13 +181,13 @@ function quit(x){
 	b.detachInterrupt(quitButton, detachCounter);
 	while(detachCount < 5);
 	console.log('FInished cleaning up');
-	exit();
+	process.exit();
 }
 
 //Count how many pins we detached
 function detachCounter(x){
 	detachCount++;
-	console.log(x.err);
+	if(x.err) console.log(x.err);
 }
 
 
