@@ -97,7 +97,7 @@ function attQ(x){
 
 
 //Handles an up input
-function goUp(){
+function goUp(x){
 	if(x.attached) return;
 	if(!upBool) return;
 	upBool = 0;
@@ -111,7 +111,7 @@ function goUp(){
 }
 
 //Handles a down input
-function goDown(){
+function goDown(x){
 	if(x.attached) return;
 	if(!downBool) return;
 	downBool = 0;
@@ -125,7 +125,7 @@ function goDown(){
 }
 
 //Handles a left input
-function goLeft(){
+function goLeft(x){
 	if(x.attached) return;
 	if(!leftBool) return;
 	leftBool = 0;
@@ -138,7 +138,7 @@ function goLeft(){
 }
 
 //Handles a right input
-function goRight(){
+function goRight(x){
 	if(x.attached) return;
 	if(!rightBool) return;
 	rightBool = 0;
