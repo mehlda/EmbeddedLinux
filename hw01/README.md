@@ -16,3 +16,10 @@ After the inputs are completed, the game will run. Use the arrow keys
 to move, and use 'q' to quit and the space bar to clear the 
 etch-a-sketch screen. For details on how the code works, see the source
 file and comments
+
+==========
+Comments by Prof. Yoder
+
+Very nicely done.  The Makefile was a nice touch.
+
+Grade:  10/10
