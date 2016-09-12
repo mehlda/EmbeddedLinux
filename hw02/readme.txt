@@ -20,7 +20,8 @@ The javascript file etchAsketch.js is a simple implementation of the etch-a-sket
 It prints a new grid to the terminal after each movement. Movement is triggered by button
 presses on the beaglebone.  Simply run the included install.sh file to install the needed
 npm packages and run the program. Use the quit button on a breadboard or Ctrl-C to quit
-the program. Wire buttons for up, down, left, and right movement, instructions below.
+the program. Wire buttons for up, down, left, and right movement, as well as quit, 
+instructions below.
 
 Etch-a-Sketch Wiring instructions:
 Place 5 normally-open buttons on a breadboard. Wire one side of each button to 3.3 V. Wire
