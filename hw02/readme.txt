@@ -28,3 +28,10 @@ Place 5 normally-open buttons on a breadboard. Wire one side of each button to 3
 the other side of the buttons to pins P9_12, P9_14, P9_16, P9_18, and P9_22 to serve as
 up, down, left, right, and quit buttons, respectively.
 ===========================================================================================
+
+==========
+Comments from Prof. Yoder
+
+It works!  Nice directions
+
+Grade:  10/10
