@@ -2,6 +2,7 @@
 declare tempC 
 declare tempF
 tempC = i2cget -y 2 0x49 00
+<<<<<<< HEAD
 tempF = $(($tempC * 9))
 tempF = $(($tempF / 5))
 tempF = $((tempF + 32))
