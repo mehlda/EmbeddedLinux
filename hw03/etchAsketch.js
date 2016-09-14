@@ -5,13 +5,14 @@
 
 //Get the packages we need
 var b = require('bonescript');
+var i2c = require('i2c');
 
-//We need command line UI, so set that up
-var rls = require('readline-sync');
+//setup the i2c device for matrix
+var address = 0x70;
 
-//Get the desired width and height of the grid from the user
-var width = parseInt(rls.question('Width of grid: '));
-var height = parseInt(rls.question('Height of grid: '));
+var matrix = new i2c(address, {
+    device: '/dev/i2c-2'
+});
 
 //Declare the buttons
 var upButton = 'P9_12';
@@ -25,6 +26,10 @@ var upBool = 1;
 var downBool = 1;
 var rightBool = 1;
 var leftBool = 1;
+
+//declare size of LED matrix
+var width = 8;
+var height = 8;
 
 //Debounce with 15 ms
 var debounceDelay = 15;
@@ -44,30 +49,26 @@ var display = new Array(height);
 for(var i = 0; i < display.length; i++){
 	display[i] = new Array(width);
 	for(var j = 0; j < display[i].length; j++){
-		display[i][j] = ' ';
+		display[i][j] = 0;
 	}
 }
 
-//Prints the given array to the terminal
-function printDisplay(disp){
-    process.stdout.write('Use quit button or Control-C to quit\n');
-	for(var k = 0; k < disp[0].length; k++){
-		process.stdout.write('*');
-	}
-	process.stdout.write('\n');
-	for(var i = 0; i < disp.length; i++){
-		for(var j = 0; j < disp[0].length; j++){
-			process.stdout.write(disp[i][j]);
-		}
-		process.stdout.write('\n');
-	}
-	for(var p = 0; p < disp[0].length; p++){
-		process.stdout.write('*');
-	}
-	process.stdout.write('\n');
+function initDisplay(){
+	matrix.writeByte(0x21, function(err) {            // Start oscillator (p10)
+	    matrix.writeByte(0x81, function(err) {        // Disp on, blink off (p11)
+	        matrix.writeByte(0xe7, function(err) {    // Full brightness (page 15)
+	        });
+	    });
+	});	
 }
-printDisplay(display);
-
+initDisplay();
+function printDisplay(display){
+	for(var j = 0; j < display.length; j++){
+		matrix.writeBytes(0x00, display[j],function(err){
+			console.log(err);
+		});
+	}
+}
 
 
 //Set the button pins to inputs with pulldown resistors and call init functions
@@ -109,7 +110,7 @@ function goUp(x){
     console.log('up');
     if(curY !== 0) {
         curY--;
-        display[curY][curX] = "#";
+        display[curY][curX] = 1;
         printDisplay(display);
     }
     setTimeout(debounceUp, debounceDelay);
@@ -125,7 +126,7 @@ function goDown(x){
     console.log("down");
     if(curY !== height- 1) {
         curY++;
-        display[curY][curX] = "#";
+        display[curY][curX] = 1;
         printDisplay(display);
     }
     setTimeout(debounceDown, debounceDelay);
@@ -141,7 +142,7 @@ function goLeft(x){
     console.log('left');
     if(curX !== 0) {
     	curX--;
-        display[curY][curX] = "#";
+        display[curY][curX] = 1;
         printDisplay(display);
     }
     setTimeout(debounceLeft, debounceDelay);
@@ -157,7 +158,7 @@ function goRight(x){
     console.log('right');
     if(curX !== width - 1) {
         curX++;
-        display[curY][curX] = "#";
+        display[curY][curX] = 1;
         printDisplay(display);
     }
     setTimeout(debounceRight, debounceDelay);
