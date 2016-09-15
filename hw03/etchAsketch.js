@@ -43,11 +43,11 @@ var curX = 0;
 var curY = 0;
 
 //Make the display array
-var display = new Array(height);
+var display = new Array(width * 2);
 
 //Initialize the display array
 for(var i = 0; i < display.length; i++){
-	display[i] = new Array(width);
+	display[i] = new Array(height);
 	for(var j = 0; j < display[i].length; j++){
 		display[i][j] = 0;
 	}
@@ -110,7 +110,7 @@ function goUp(x){
     console.log('up');
     if(curY !== 0) {
         curY--;
-        display[curY][curX] = 1;
+        display[curX * 2][curY] = 1;
         printDisplay(display);
     }
     setTimeout(debounceUp, debounceDelay);
@@ -126,7 +126,7 @@ function goDown(x){
     console.log("down");
     if(curY !== height- 1) {
         curY++;
-        display[curY][curX] = 1;
+        display[curX * 2][curY] = 1;
         printDisplay(display);
     }
     setTimeout(debounceDown, debounceDelay);
@@ -142,7 +142,7 @@ function goLeft(x){
     console.log('left');
     if(curX !== 0) {
     	curX--;
-        display[curY][curX] = 1;
+        display[curX * 2][curY] = 1;
         printDisplay(display);
     }
     setTimeout(debounceLeft, debounceDelay);
@@ -158,7 +158,7 @@ function goRight(x){
     console.log('right');
     if(curX !== width - 1) {
         curX++;
-        display[curY][curX] = 1;
+        display[curX * 2][curY] = 1;
         printDisplay(display);
     }
     setTimeout(debounceRight, debounceDelay);
