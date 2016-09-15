@@ -54,7 +54,7 @@ function initDisplay(){
 	matrix.writeByte(0x21, function(err) {            // Start oscillator (p10)
 	    matrix.writeByte(0x81, function(err) {        // Disp on, blink off (p11)
 	        matrix.writeByte(0xe7, function(err) {    // Full brightness (page 15)
-	        	setTimout(main, 1000);
+	        	setTimeout(main, 1000);
 	        });
 	    });
 	});
