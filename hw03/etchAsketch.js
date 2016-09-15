@@ -202,8 +202,8 @@ function detachCounter(x){
 	if(x.err) console.log(x.err);
 }
 
-
+initDisplay();
 function main(){
-	initDisplay();
+	console.log("ready");
 }
 
