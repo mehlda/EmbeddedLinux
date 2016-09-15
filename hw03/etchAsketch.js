@@ -31,8 +31,8 @@ var leftBool = 1;
 var width = 8;
 var height = 8;
 
-//Debounce with 15 ms
-var debounceDelay = 15;
+//Debounce with 25 ms
+var debounceDelay = 25;
 
 //Keep track of the detached buttons when we quit
 var detachCount = 0;
@@ -50,6 +50,7 @@ for(var i = 0; i < display.length; i++){
 	display[i] = 0x00;
 }
 
+//Sets up the i2c LED matrix. Written by Ricky Rung, modified for this program by me
 function initDisplay(){
 	matrix.writeByte(0x21, function(err) {            // Start oscillator (p10)
 	    matrix.writeByte(0x81, function(err) {        // Disp on, blink off (p11)
