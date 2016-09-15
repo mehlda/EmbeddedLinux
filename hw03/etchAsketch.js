@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-//This file runs a simple terminal etch-a-sketch progrom on the Beaglebone Black
+//This file runs a simple LED matrix etch-a-sketch progrom on the Beaglebone Black
 //Author: David Mehl
+// Thanks to Ricky Rung for matix init function
 
 //Get the packages we need
 var b = require('bonescript');
@@ -62,9 +63,10 @@ function initDisplay(){
     printDisplay(display);	
 }
 
+//Prints the display to the LED matrix
 function printDisplay(display){
 		matrix.writeBytes(0x00, display,function(err){
-			console.log(err);
+			if(err) console.log(err);
 		});
 
 }
