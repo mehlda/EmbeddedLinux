@@ -59,7 +59,8 @@ function initDisplay(){
 	        matrix.writeByte(0xe7, function(err) {    // Full brightness (page 15)
 	        });
 	    });
-	});	
+	});
+    printDisplay(display);	
 }
 initDisplay();
 function printDisplay(display){
