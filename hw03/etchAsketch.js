@@ -62,11 +62,10 @@ function initDisplay(){
 }
 
 function printDisplay(display){
-	for(var j = 0; j < display.length; j++){
-		matrix.writeBytes(0x00, display[j],function(err){
+		matrix.writeBytes(0x00, display,function(err){
 			console.log(err);
 		});
-	}
+
 }
 
 
