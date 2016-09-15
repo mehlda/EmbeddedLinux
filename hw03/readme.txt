@@ -1,4 +1,8 @@
-
+temperature.sh
+-------------------------------------------------------------------------------------------
+The bash script temperature.sh is a simple script that gets the temperature from a tmp101
+chip using i2c and prints the fahrenheit value to the terminal
+===========================================================================================
 
 etchAsketch.js
 -------------------------------------------------------------------------------------------
