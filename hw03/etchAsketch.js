@@ -47,10 +47,7 @@ var display = new Array(width * 2);
 
 //Initialize the display array
 for(var i = 0; i < display.length; i++){
-	display[i] = new Array(height);
-	for(var j = 0; j < display[i].length; j++){
-		display[i][j] = 0;
-	}
+	display[i] = 0xAA;
 }
 
 function initDisplay(){
