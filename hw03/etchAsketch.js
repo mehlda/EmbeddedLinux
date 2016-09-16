@@ -15,6 +15,16 @@ var matrix = new i2c(address, {
     device: '/dev/i2c-2'
 });
 
+//setup the i2c device for the tmp101
+var tmpAddr = 0x49;
+
+var sensor0 = new i2c(tmpAddr, {
+    device: '/dev/i2c-2'
+});
+
+//declare the temperature erase threshold
+var threshold = 28;
+
 //Declare the buttons
 var upButton = 'P9_12';
 var downButton = 'P9_14';
@@ -47,10 +57,13 @@ var curY = 0;
 var display = new Array(width * 2);
 
 //Initialize the display array
-for(var i = 0; i < display.length; i++){
-	display[i] = 0x00;
+function clearDisplay(){
+	for(var i = 0; i < display.length; i++){
+		display[i] = 0x00;
+	}
 }
 
+clearDisplay();
 //Sets up the i2c LED matrix. Written by Ricky Rung, modified for this program by me
 function initDisplay(){
 	matrix.writeByte(0x21, function(err) {            // Start oscillator (p10)
@@ -71,6 +84,19 @@ function printDisplay(display){
 
 }
 
+//Checks the temperature and if it is high enough it clears the display
+function checkTemperature(){
+    sensor0.readByte(function(err, result) {
+        if(err) console.log(err);
+        if(result > threshold){
+        	clearDisplay();
+        	printDisplay(display);
+        }
+    });
+}
+
+//check for erase condition every second
+setInterval(checkTemperature, 1000);
 
 //Set the button pins to inputs with pulldown resistors and call init functions
 b.pinMode(upButton, b.INPUT, 7, 'pulldown', 'fast', attU);
