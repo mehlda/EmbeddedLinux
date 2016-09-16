@@ -23,7 +23,7 @@ var sensor0 = new i2c(tmpAddr, {
     device: '/dev/i2c-2'
 });
 
-//declare the temperature erase threshold
+//declare the temperature erase threshold, in degrees C
 var threshold = 28;
 
 //Declare the buttons
