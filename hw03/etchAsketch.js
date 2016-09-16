@@ -17,6 +17,7 @@ var matrix = new i2c(address, {
 
 //setup the i2c device for the tmp101
 var tmpAddr = 0x49;
+var tPointer = 0x00; //pointer to temperature register in tmp101
 
 var sensor0 = new i2c(tmpAddr, {
     device: '/dev/i2c-2'
@@ -86,13 +87,15 @@ function printDisplay(display){
 
 //Checks the temperature and if it is high enough it clears the display
 function checkTemperature(){
-    sensor0.readByte(function(err, result) {
-        if(err) console.log(err);
-        if(result > threshold){
-        	clearDisplay();
-        	printDisplay(display);
-        }
-    });
+	sensor0.writeByte(tPointer, function(err){
+	    sensor0.readByte(function(err, result) {
+	        if(err) console.log(err);
+	        if(result > threshold){
+	        	clearDisplay();
+	        	printDisplay(display);
+	        }
+	    });
+	});
 }
 
 //check for erase condition every second
