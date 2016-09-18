@@ -168,7 +168,7 @@ function attQ(x){
 
 function attT0(x){
 	b.attachInterrupt(alert0, true, b.FALLING, tHandler);
-	b.getPinMode(alert0, printPinInfo);
+	
 }
 
 function attT1(x){
@@ -176,7 +176,7 @@ function attT1(x){
 }
 
 function printPinInfo(x){
-	console.log(x.pullup);
+	console.log(x);
 }
 
 
@@ -280,6 +280,7 @@ function quit(x){
 }
 
 function tHandler(x){
+	b.getPinMode(alert0, printPinInfo);
 	if(x.attached) return;
 	if(x.pin.key === alert0){
 		clearDisplay();
