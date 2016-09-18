@@ -144,6 +144,7 @@ b.pinMode(quitButton, b.INPUT, 7, 'pulldown', 'fast', attQ);
 b.pinMode(alert0, b.INPUT, 7, 'pullup', 'fast', attT0);
 b.pinMode(alert1, b.INPUT, 7, 'pullup', 'fast', attT1);
 
+
 //The following four functions handle attaching interrupts to the buttons
 function attU(x){
     b.attachInterrupt(upButton, true, b.RISING, goUp);
@@ -167,10 +168,15 @@ function attQ(x){
 
 function attT0(x){
 	b.attachInterrupt(alert0, true, b.FALLING, tHandler);
+	b.getPinMode(alert0, printPinInfo);
 }
 
 function attT1(x){
 	b.attachInterrupt(alert1, true, b.FALLING, tHandler);
+}
+
+function printPinInfo(x){
+	console.log(x.pullup);
 }
 
 
