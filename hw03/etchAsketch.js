@@ -115,8 +115,8 @@ b.pinMode(rightButton, b.INPUT, 7, 'pulldown', 'fast', attR);
 b.pinMode(quitButton, b.INPUT, 7, 'pulldown', 'fast', attQ);
 
 //set alert pins to inputs with pullups
-b.pinMode(alert0, b.INPUT, 7, 'pullup', 'fast', attT0);
-b.pinMode(alert1, b.INPUT, 7, 'pullup', 'fast', attT1);
+// b.pinMode(alert0, b.INPUT, 7, 'pullup', 'fast', attT0);
+// b.pinMode(alert1, b.INPUT, 7, 'pullup', 'fast', attT1);
 
 //The following four functions handle attaching interrupts to the buttons
 function attU(x){
@@ -275,11 +275,11 @@ function tempHandler(x){
 
 console.log("InitDisplay");
 initDisplay();
-console.log("InitTMP");
-initTmp(tmpAddr0);
-initTmp(tmpAddr1);
-console.log("InitcheckTemp");
-setInterval(checkTemperature, 1000);
+// console.log("InitTMP");
+// initTmp(tmpAddr0);
+// initTmp(tmpAddr1);
+// console.log("InitcheckTemp");
+// setInterval(checkTemperature, 1000);
 function main(){
 	console.log("ready");
 }
