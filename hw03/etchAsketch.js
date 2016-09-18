@@ -6,36 +6,40 @@
 
 //Get the packages we need
 var b = require('bonescript');
-var i2c = require('i2c-bus');
-var bus = i2c.openSync(2);
+var i2c = require('i2c');
 
-//setup the i2c bus
-//matrix constants
-//declare size of LED matrix
-var width = 8;
-var height = 8;
-var matrixAddress = 0x70;
-var colorOffset = 0;
+//setup the i2c device for matrix
+var address = 0x70;
 
-//Make the display array
-var display = new Array(width * 2);
+var matrix = new i2c(address, {
+    device: '/dev/i2c-2'
+});
 
-//tmp101 constants
+//setup the i2c device for the tmp101
 var tmpAddr0 = 0x49;
-var tmpAddr1 = 0x48;
+var tmpAddr0 = 0x48;
 var tPointer = 0x00; //pointer to temperature register in tmp101
 var tLpointer = 0x02;
 var tHpointer = 0x03;
-var configPointer = 0x01;
+var confPointer = 0x01;
 var alert0 = 'P9_26';
 var alert1 = 'P9_27';
 
-//declare the temperature erase thresholds, in degrees C
-var thresholdH = 28;
+//Alert thresholds
 var thresholdL = 26;
+var thresholdH = 28;
 
+var sensor0 = new i2c(tmpAddr0, {
+    device: '/dev/i2c-2'
+});
 
-//Declare hardware constants
+var sensor1 = new i2c(tmpAddr1, {
+    device: '/dev/i2c-2'
+});
+
+//declare the temperature erase threshold, in degrees C
+var threshold = 28;
+
 //Declare the buttons
 var upButton = 'P9_12';
 var downButton = 'P9_14';
@@ -49,6 +53,10 @@ var downBool = 1;
 var rightBool = 1;
 var leftBool = 1;
 
+//declare size of LED matrix
+var width = 8;
+var height = 8;
+
 //Debounce with 25 ms
 var debounceDelay = 25;
 
@@ -60,52 +68,71 @@ var detachCount = 0;
 var curX = 0;
 var curY = 0;
 
-//Prints the display to the LED matrix
-function printDisplay(){
-	bus.i2cWriteSync(matrixAddress, display.length, display);
-}
+//Keep track of color
+var colorOffset = 0;
 
-//CLear and print display
+//Make the display array
+var display = new Array(width * 2);
+
+//Initialize the display array
 function clearDisplay(){
 	for(var i = 0; i < display.length; i++){
 		display[i] = 0x00;
 	}
-	printDisplay();
 }
 
-//Sets up the i2c LED matrix. Thanks to Ricky Rung for finding config values
+clearDisplay();
+//Sets up the i2c LED matrix. Written by Ricky Rung, modified for this program by me
 function initDisplay(){
-	bus.i2cWriteSync(matrixAddress, 1, 0x21);
-	bus.i2cWriteSync(matrixAddress, 1, 0x81);
-	bus.i2cWriteSync(matrixAddress, 1, 0xE7);
-    clearDisplay();	
+	matrix.writeByte(0x21, function(err) {            // Start oscillator (p10)
+	    matrix.writeByte(0x81, function(err) {        // Disp on, blink off (p11)
+	        matrix.writeByte(0xe7, function(err) {    // Full brightness (page 15)
+	        	printDisplay(display);
+	        	//setTimeout(main, 1000);
+	        });
+	    });
+	});	
 }
 
-//Sets the pointer register in a tmp101 device with the supplied address
-function setPointerRegister(addr, reg){
-	bus.i2cWriteSync(addr, 1, reg);
+function initTemp(){
+	sensor0.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
+	    sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
+	        sensor0.writeByte(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
+	        	sensor0.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
+	    			sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
+	        			sensor0.writeByte(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
+	        				setTimeout(main, 1000);
+	        			});
+	    			});
+				});
+	        });
+	    });
+	});
 }
 
-//Initialized tmp101 sensor
-function initTmp(addr){
-	bus.i2cWriteSync(addr, 2, [configPointer, 0x00]);
-	bus.i2cWriteSync(addr, 2, [tLpointer, thresholdL]);
-	bus.i2cWriteSync(addr, 2, [tHpointer, thresholdH]);
+//Prints the display to the LED matrix
+function printDisplay(display){
+		matrix.writeBytes(0x00, display,function(err){
+			if(err) console.log(err);
+		});
+
 }
 
 //Checks the temperature and if it is high enough it clears the display
 function checkTemperature(){
-	setPointerRegister(tmpAddr0, tPointer);
-	var temp = new Array(2);
-	bus.i2cReadSync(tmpAddr0, 2, temp);
-	console.log("Temperature for sensor at %i",tmpAddr0);
-	console.log(temp[0] <<8 | temp[1]);
-	setPointerRegister(tmpAddr1, tPointer);
-	bus.i2cReadSync(tmpAddr1, 2, temp);
-	console.log("Temperature for sensor at %i",tmpAddr1);
-	console.log(temp[0] <<8 | temp[1]);
+	sensor0.writeByte(tPointer, function(err){
+	    sensor0.readByte(function(err, result) {
+	        if(err) console.log(err);
+	        if(result > threshold){
+	        	clearDisplay();
+	        	printDisplay(display);
+	        }
+	    });
+	});
 }
 
+//check for erase condition every second
+//setInterval(checkTemperature, 1000);
 
 //Set the button pins to inputs with pulldown resistors and call init functions
 b.pinMode(upButton, b.INPUT, 7, 'pulldown', 'fast', attU);
@@ -114,9 +141,9 @@ b.pinMode(leftButton, b.INPUT, 7, 'pulldown', 'fast', attL);
 b.pinMode(rightButton, b.INPUT, 7, 'pulldown', 'fast', attR);
 b.pinMode(quitButton, b.INPUT, 7, 'pulldown', 'fast', attQ);
 
-//set alert pins to inputs with pullups
-// b.pinMode(alert0, b.INPUT, 7, 'pullup', 'fast', attT0);
-// b.pinMode(alert1, b.INPUT, 7, 'pullup', 'fast', attT1);
+//Set alert pins
+b.pinMode(alert0, b.INPUT, 7, 'pullup', 'fast', attT0);
+b.pinMode(alert1, b.INPUT, 7, 'pullup', 'fast', attT1);
 
 //The following four functions handle attaching interrupts to the buttons
 function attU(x){
@@ -139,14 +166,12 @@ function attQ(x){
 	b.attachInterrupt(quitButton, true, b.RISING, quit);
 }
 
-//Attach interrupts to alert pins
 function attT0(x){
-	console.log("Attach0");
-	b.attachInterrupt(alert0, true, b.FALLING, tempHandler);
+	b.attachInterrupt(alert0, true, b.FALLING, tHandler);
 }
+
 function attT1(x){
-	console.log("Attach1");
-	b.attachInterrupt(alert1, true, b.FALLING, tempHandler);
+	b.attachInterrupt(alert1, true, b.FALLING, tHandler);
 }
 
 
@@ -176,7 +201,7 @@ function goDown(x){
     console.log("down");
     if(curY !== height- 1) {
         curY++;
-        display[curX * 2 + colorOffset] |= 1<<(height - 1 - curY);
+        display[curX * 2+ colorOffset] |= 1<<(height - 1 - curY);
         printDisplay(display);
     }
     setTimeout(debounceDown, debounceDelay);
@@ -192,7 +217,7 @@ function goLeft(x){
     console.log('left');
     if(curX !== 0) {
     	curX--;
-        display[curX * 2 + colorOffset] |= 1<<(height - 1 - curY);
+        display[curX * 2+ colorOffset] |= 1<<(height - 1 - curY);
         printDisplay(display);
     }
     setTimeout(debounceLeft, debounceDelay);
@@ -208,7 +233,7 @@ function goRight(x){
     console.log('right');
     if(curX !== width - 1) {
         curX++;
-        display[curX * 2 + colorOffset] |= 1<<(height - 1 - curY);
+        display[curX * 2+ colorOffset] |= 1<<(height - 1 - curY);
         printDisplay(display);
     }
     setTimeout(debounceRight, debounceDelay);
@@ -232,12 +257,6 @@ function debounceRight(){
 	rightBool = 1;
 }
 
-//Count how many pins we detached
-function detachCounter(x){
-	detachCount++;
-	if(x.err) console.log(x.err);
-}
-
 //Release the interrupts on the pins and quit
 function quit(x){
 	if(x.attached) return;
@@ -251,37 +270,33 @@ function quit(x){
 	b.detachInterrupt(alert1, detachCounter);
 	//When all 5 are detached, exit the process
 	while(detachCount < 7);
-	console.log('Finished cleaning up');
+	console.log('FInished cleaning up');
 	process.exit();
 }
 
-//If alert is from tmp0 then erase, otherwise swap colors
-function tempHandler(x){
-	console.log("TempHandler");
+function tHandler(x){
 	if(x.attached) return;
 	if(x.pin.key === alert0){
-		//erase
 		clearDisplay();
-	}
-	if(x.pin.key === alert1){
-		//change color
-		if(colorOffset === 0) {
-			colorOffset = 1;
-		} else {
+		printDisplay(display);
+	} else {
+		if(colorOffset === 1){
 			colorOffset = 0;
+		} else {
+			colorOffset = 1;
 		}
 	}
 }
 
-console.log("InitDisplay");
+//Count how many pins we detached
+function detachCounter(x){
+	detachCount++;
+	if(x.err) console.log(x.err);
+}
+
 initDisplay();
-// console.log("InitTMP");
-// initTmp(tmpAddr0);
-// initTmp(tmpAddr1);
-// console.log("InitcheckTemp");
-// setInterval(checkTemperature, 1000);
+initTemp();
 function main(){
 	console.log("ready");
 }
 
-main();
