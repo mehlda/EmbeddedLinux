@@ -88,7 +88,6 @@ function initDisplay(){
 	    matrix.writeByte(0x81, function(err) {        // Disp on, blink off (p11)
 	        matrix.writeByte(0xe7, function(err) {    // Full brightness (page 15)
 	        	printDisplay(display);
-	        	//setTimeout(main, 1000);
 	        });
 	    });
 	});	
@@ -130,8 +129,6 @@ function checkTemperature(){
 	});
 }
 
-//check for erase condition every second
-//setInterval(checkTemperature, 1000);
 
 //Set the button pins to inputs with pulldown resistors and call init functions
 b.pinMode(upButton, b.INPUT, 7, 'pulldown', 'fast', attU);
@@ -173,10 +170,6 @@ function attT0(x){
 
 function attT1(x){
 	b.attachInterrupt(alert1, true, b.FALLING, tHandler);
-}
-
-function printPinInfo(x){
-	console.log(x);
 }
 
 
@@ -280,7 +273,6 @@ function quit(x){
 }
 
 function tHandler(x){
-	b.getPinMode(alert0, printPinInfo);
 	if(x.attached) return;
 	if(x.pin.key === alert0){
 		clearDisplay();
