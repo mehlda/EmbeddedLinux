@@ -141,9 +141,11 @@ function attQ(x){
 
 //Attach interrupts to alert pins
 function attT0(x){
+	console.log("Attach0");
 	b.attachInterrupt(alert0, true, b.FALLING, tempHandler);
 }
 function attT1(x){
+	console.log("Attach1");
 	b.attachInterrupt(alert1, true, b.FALLING, tempHandler);
 }
 
@@ -255,6 +257,7 @@ function quit(x){
 
 //If alert is from tmp0 then erase, otherwise swap colors
 function tempHandler(x){
+	console.log("TempHandler");
 	if(x.attached) return;
 	if(x.pin.key === alert0){
 		//erase
@@ -275,6 +278,7 @@ initDisplay();
 console.log("InitTMP");
 initTmp(tmpAddr0);
 initTmp(tmpAddr1);
+console.log("InitcheckTemp");
 setInterval(checkTemperature, 1000);
 function main(){
 	console.log("ready");
