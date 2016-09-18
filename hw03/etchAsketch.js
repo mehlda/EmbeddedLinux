@@ -270,8 +270,9 @@ function tempHandler(x){
 	}
 }
 
-
+console.log("InitDisplay");
 initDisplay();
+console.log("InitTMP");
 initTmp(tmpAddr0);
 initTmp(tmpAddr1);
 setInterval(checkTemperature, 1000);
