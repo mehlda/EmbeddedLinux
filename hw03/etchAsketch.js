@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 //This file runs a simple LED matrix etch-a-sketch progrom on the Beaglebone Black
+//When the sensor with the floating ADD0 pin triggers an interrupt, the display will erase
+//When the sensor with grounded ADD0 triggers interrupt, the pointer will swap colors
 //Author: David Mehl
-// Thanks to Ricky Rung for matix init function
+// Thanks to Ricky Rung for matrix init function
 
 //Get the packages we need
 var b = require('bonescript');
@@ -15,13 +17,16 @@ var matrix = new i2c(address, {
     device: '/dev/i2c-2'
 });
 
-//setup the i2c device for the tmp101
+//setup the i2c device for the tmp101.
+//addresses
 var tmpAddr0 = 0x49;
 var tmpAddr1 = 0x48;
-var tPointer = 0x00; //pointer to temperature register in tmp101
+//pointers to config registers
+var tPointer = 0x00; 
 var tLpointer = 0x02;
 var tHpointer = 0x03;
 var confPointer = 0x01;
+//alert pins
 var alert0 = 'P9_26';
 var alert1 = 'P9_27';
 
@@ -29,6 +34,7 @@ var alert1 = 'P9_27';
 var thresholdL = 26;
 var thresholdH = 28;
 
+//Make the sensor objects
 var sensor0 = new i2c(tmpAddr0, {
     device: '/dev/i2c-2'
 });
@@ -36,9 +42,6 @@ var sensor0 = new i2c(tmpAddr0, {
 var sensor1 = new i2c(tmpAddr1, {
     device: '/dev/i2c-2'
 });
-
-//declare the temperature erase threshold, in degrees C
-var threshold = 28;
 
 //Declare the buttons
 var upButton = 'P9_12';
@@ -93,13 +96,14 @@ function initDisplay(){
 	});	
 }
 
+//Initializes the temperature sensor configuration registers
 function initTemp(){
-	sensor0.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
-	    sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
-	        sensor0.writeBytes(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
-	        	sensor1.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
-	    			sensor1.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
-	        			sensor1.writeBytes(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
+	sensor0.writeBytes(confPointer, [0x00], function(err) {           
+	    sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        
+	        sensor0.writeBytes(tHpointer, [thresholdH], function(err) {    
+	        	sensor1.writeBytes(confPointer, [0x00], function(err) {           
+	    			sensor1.writeBytes(tLpointer, [thresholdL], function(err) {       
+	        			sensor1.writeBytes(tHpointer, [thresholdH], function(err) { 
 	        				setTimeout(main, 1000);
 	        			});
 	    			});
@@ -163,9 +167,9 @@ function attQ(x){
 	b.attachInterrupt(quitButton, true, b.RISING, quit);
 }
 
+//The following two functions attach the temp sense handler to the two alert pins
 function attT0(x){
-	b.attachInterrupt(alert0, true, b.FALLING, tHandler);
-	
+	b.attachInterrupt(alert0, true, b.FALLING, tHandler);	
 }
 
 function attT1(x){
@@ -180,7 +184,7 @@ function goUp(x){
 	//Debounce the button
 	if(!upBool) return;
 	upBool = 0;
-    console.log('up');
+    console.log('Up');
     if(curY !== 0) {
         curY--;
         display[curX * 2 + colorOffset] |= 1<<(height - 1 - curY);
@@ -196,7 +200,7 @@ function goDown(x){
 	//Debounce the button
 	if(!downBool) return;
 	downBool = 0;
-    console.log("down");
+    console.log("Down");
     if(curY !== height- 1) {
         curY++;
         display[curX * 2+ colorOffset] |= 1<<(height - 1 - curY);
@@ -212,7 +216,7 @@ function goLeft(x){
 	//Debounce the button
 	if(!leftBool) return;
 	leftBool = 0;
-    console.log('left');
+    console.log('Left');
     if(curX !== 0) {
     	curX--;
         display[curX * 2+ colorOffset] |= 1<<(height - 1 - curY);
@@ -228,7 +232,7 @@ function goRight(x){
 	//Debounce the button
 	if(!rightBool) return;
 	rightBool = 0;
-    console.log('right');
+    console.log('Right');
     if(curX !== width - 1) {
         curX++;
         display[curX * 2+ colorOffset] |= 1<<(height - 1 - curY);
@@ -266,23 +270,25 @@ function quit(x){
 	b.detachInterrupt(quitButton, detachCounter);
 	b.detachInterrupt(alert0, detachCounter);
 	b.detachInterrupt(alert1, detachCounter);
-	//When all 5 are detached, exit the process
+	//When all 7 are detached, exit the process
 	while(detachCount < 7);
-	console.log('FInished cleaning up');
+	console.log('Finished cleaning up');
 	process.exit();
 }
 
+//Handles the temperature alerts
 function tHandler(x){
 	if(x.attached) return;
 	if(x.pin.key === alert0){
-		console.log("erase");
+		console.log("Erase!");
 		clearDisplay();
 		printDisplay(display);
 	} else {
-		console.log("color swap");
 		if(colorOffset === 1){
+			console.log("Green!");
 			colorOffset = 0;
 		} else {
+			console.log("Red!");
 			colorOffset = 1;
 		}
 	}
@@ -297,6 +303,6 @@ function detachCounter(x){
 initDisplay();
 initTemp();
 function main(){
-	console.log("ready");
+	console.log("Ready!");
 }
 
