@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 //Get the packages we need
 var b = require('bonescript');
 var i2c = require('i2c');
