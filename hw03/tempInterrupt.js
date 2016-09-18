@@ -73,12 +73,12 @@ function tHandler(x){
 	if(x.pin.key === alert0){
 		sensor0.readBytes(0x00, 2, function(err, res){
 			console.log("Sensor 0 temperature:");
-			console.log(((res[0]<<8) | res[1]) * 9 / 5 + 32);
+			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
 		});
 	} else {
 		sensor1.readBytes(0x00, 2, function(err, res){
 			console.log("Sensor 1 temperature:");
-			console.log(((res[0]<<8) | res[1]) * 9 / 5 + 32);
+			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
 		});
 	}
 }
