@@ -20,7 +20,7 @@ occurs, the console will notify the user. When the terminal prints "Ready!" the 
 initialized. Simply run the included install.sh  file to install the needed npm packages and 
 run the program. Use the quit button on a breadboard or Ctrl-C to quit the program. Wire 
 buttons for up, down, left, and right movement, as well as quit, and the LED matrix for the 
-display, and the TMP101 sensors for erase, instructions below.
+display, and the TMP101 sensors for erase and color swap, instructions below.
 
 Etch-a-Sketch Wiring instructions:
 Place 5 normally-open buttons on a breadboard. Wire one side of each button to 3.3 V. Wire
