@@ -10,17 +10,21 @@
 var b = require('bonescript');
 var i2c = require('i2c');
 
-//setup the i2c device for matrix
-var address = 0x70;
 
-var matrix = new i2c(address, {
-    device: '/dev/i2c-2'
+//setup the i2c device for matrix
+var bus = '/dev/i2c-2';
+var matrixAddress = 0x70;
+var startColumn = 0x00;
+
+var matrix = new i2c(matrixAddress, {
+    device: bus
 });
 
 //setup the i2c device for the tmp101.
 //addresses
 var tmpAddr0 = 0x49;
 var tmpAddr1 = 0x48;
+var configRegisterValue = 0x00;
 //pointers to config registers
 var tPointer = 0x00; 
 var tLpointer = 0x02;
@@ -36,11 +40,11 @@ var thresholdH = 28;
 
 //Make the sensor objects
 var sensor0 = new i2c(tmpAddr0, {
-    device: '/dev/i2c-2'
+    device: bus
 });
 
 var sensor1 = new i2c(tmpAddr1, {
-    device: '/dev/i2c-2'
+    device: bus
 });
 
 //Declare the buttons
@@ -98,10 +102,10 @@ function initDisplay(){
 
 //Initializes the temperature sensor configuration registers
 function initTemp(){
-	sensor0.writeBytes(confPointer, [0x00], function(err) {           
+	sensor0.writeBytes(confPointer, [configRegisterValue], function(err) {           
 	    sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        
 	        sensor0.writeBytes(tHpointer, [thresholdH], function(err) {    
-	        	sensor1.writeBytes(confPointer, [0x00], function(err) {           
+	        	sensor1.writeBytes(confPointer, [configRegisterValue], function(err) {           
 	    			sensor1.writeBytes(tLpointer, [thresholdL], function(err) {       
 	        			sensor1.writeBytes(tHpointer, [thresholdH], function(err) { 
 	        				setTimeout(main, 1000);
@@ -115,7 +119,7 @@ function initTemp(){
 
 //Prints the display to the LED matrix
 function printDisplay(display){
-	matrix.writeBytes(0x00, display,function(err){
+	matrix.writeBytes(startColumn, display,function(err){
 		if(err) console.log(err);
 	});
 }
@@ -302,6 +306,7 @@ function detachCounter(x){
 
 initDisplay();
 initTemp();
+//Show that code is ready
 function main(){
 	console.log("Ready!");
 }
