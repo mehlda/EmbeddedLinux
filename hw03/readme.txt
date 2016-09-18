@@ -6,6 +6,14 @@ three configuration registers, but these do not hold their values. See the wirin
 instructions for Etch-a-Sketch for proper i2c bus on the Bone
 ===========================================================================================
 
+tempInterrupt.js
+-------------------------------------------------------------------------------------------
+tempInterrupt.js is a simple program that waits for interrupts from two TMP101 sensors
+and then prints the temperature to the console. run 'chmod +x tempInterrupt.js' and then
+execute './tempInterrupt.js' to run the program. See wiring instructions in the next 
+for an explanation on wiring the sensors
+===========================================================================================
+
 etchAsketch.js
 -------------------------------------------------------------------------------------------
 The javascript file etchAsketch.js is a simple implementation of the etch-a-sketch program.
