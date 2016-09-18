@@ -69,14 +69,15 @@ function attT1(x){
 //Handles the temperature alerts
 function tHandler(x){
 	if(x.attached) return;
-	if(x.pin.key === alert0){
-		sensor0.readBytes(0x00, 2, function(err, res){
-			console.log("Sensor 0 temperature:");
+		if(x.pin.key === alert0){
+			sensor0.readBytes(0x00, 2, function(err, res){
+				console.log("Sensor 0 temperature:");
+				console.log(((res[0]<<8) | res[1]) * 9 / 5 + 32);
+			});
+		} else {
+			sensor1.readBytes(0x00, 2, function(err, res){
+			console.log("Sensor 1 temperature:");
 			console.log(((res[0]<<8) | res[1]) * 9 / 5 + 32);
-		});
-	} else {
-		sensor1.readBytes(0x00, 2, function(err, res){
-		console.log("Sensor 1 temperature:");
-		console.log(((res[0]<<8) | res[1]) * 9 / 5 + 32);
+		}
 	}
 }
