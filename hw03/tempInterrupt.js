@@ -21,7 +21,7 @@ var thresholdL = 26;
 var thresholdH = 28;
 
 //Make the sensor object
-var sensor0 = new i2c(tmpAddr, {
+var sensor0 = new i2c(tmpAddr0, {
     device: bus
 });
 
