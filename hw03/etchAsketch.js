@@ -97,10 +97,10 @@ function initDisplay(){
 function initTemp(){
 	sensor0.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
 	    sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
-	        sensor0.writeByte(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
+	        sensor0.writeBytes(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
 	        	sensor0.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
 	    			sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
-	        			sensor0.writeByte(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
+	        			sensor0.writeBytes(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
 	        				setTimeout(main, 1000);
 	        			});
 	    			});
@@ -112,10 +112,9 @@ function initTemp(){
 
 //Prints the display to the LED matrix
 function printDisplay(display){
-		matrix.writeBytes(0x00, display,function(err){
-			if(err) console.log(err);
-		});
-
+	matrix.writeBytes(0x00, display,function(err){
+		if(err) console.log(err);
+	});
 }
 
 //Checks the temperature and if it is high enough it clears the display
