@@ -275,9 +275,11 @@ function quit(x){
 function tHandler(x){
 	if(x.attached) return;
 	if(x.pin.key === alert0){
+		console.log("erase");
 		clearDisplay();
 		printDisplay(display);
 	} else {
+		console.log("color swap");
 		if(colorOffset === 1){
 			colorOffset = 0;
 		} else {
