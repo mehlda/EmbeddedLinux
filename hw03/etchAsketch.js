@@ -276,8 +276,8 @@ function tempHandler(x){
 console.log("InitDisplay");
 initDisplay();
 console.log("InitTMP");
-initTmp(tmpAddr0);
-initTmp(tmpAddr1);
+//initTmp(tmpAddr0);
+//initTmp(tmpAddr1);
 console.log("InitcheckTemp");
 setInterval(checkTemperature, 1000);
 function main(){
