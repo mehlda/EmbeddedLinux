@@ -17,7 +17,7 @@ var matrix = new i2c(address, {
 
 //setup the i2c device for the tmp101
 var tmpAddr0 = 0x49;
-var tmpAddr0 = 0x48;
+var tmpAddr1 = 0x48;
 var tPointer = 0x00; //pointer to temperature register in tmp101
 var tLpointer = 0x02;
 var tHpointer = 0x03;
