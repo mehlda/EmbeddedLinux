@@ -16,6 +16,7 @@ var tHpointer = 0x03;
 var confPointer = 0x01;
 //alert pins
 var alert0 = 'P9_26';
+var alert1 = 'P9_27';
 //Alert thresholds
 var thresholdL = 26;
 var thresholdH = 28;
