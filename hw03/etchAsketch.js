@@ -97,9 +97,9 @@ function initTemp(){
 	sensor0.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
 	    sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
 	        sensor0.writeBytes(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
-	        	sensor0.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
-	    			sensor0.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
-	        			sensor0.writeBytes(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
+	        	sensor1.writeBytes(confPointer, [0x00], function(err) {            // Start oscillator (p10)
+	    			sensor1.writeBytes(tLpointer, [thresholdL], function(err) {        // Disp on, blink off (p11)
+	        			sensor1.writeBytes(tHpointer, [thresholdH], function(err) {    // Full brightness (page 15)
 	        				setTimeout(main, 1000);
 	        			});
 	    			});
