@@ -43,3 +43,9 @@ pullup resistors on the alert pins of the TMP101 sensors. The code is supposed t
 however they are not functioning properly on my device
 ===========================================================================================
 
+==========
+Comments from Prof. Mark A. Yoder
+
+Nice detailed documentation.  Good comments in code.
+
+Grade:  10/10
