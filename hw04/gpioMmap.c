@@ -7,8 +7,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
+#include <mman.h>
+#include <stat.h>
 #include <fcntl.h> 
 
 #define GPIO0_BASE 0x44E07000
@@ -35,5 +35,5 @@ int main(){
 		*gpioSetDataOutAddr = USR3;
 		*gpioClearDataOutAddr = USR3;
 	}
-
+	return 0;
 }
