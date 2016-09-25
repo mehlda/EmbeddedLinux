@@ -29,15 +29,19 @@
 #define SWITCH1 (1<<16) //P9_15, GPIO port 1
 
 int main(){
+	printf("Declaring Variables...");
 	volatile void * gpioAddr0, * gpioAddr1;
 	volatile unsigned int *gpioClearDataOutAddr0, * gpioClearDataOutAddr1;
 	volatile unsigned int * gpioSetDataOutAddr0,* gpioSetDataOutAddr1;
 	volatile unsigned int * gpioDataIn0, *gpioDataIn1;
+	printf("Opening /dev/mem...");
 	int fd = open("/dev/mem", O_RDWR);
 
+	printf("Calling mmap...");
 	gpioAddr0 = mmap(0, GPIO_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO0_BASE);
 	gpioAddr1 = mmap(0, GPIO_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO1_BASE);
 
+	printf("Creating pointers...");
 	gpioSetDataOutAddr0 = gpioAddr0 + GPIO_SETDATAOUT;
 	gpioClearDataOutAddr0 = gpioAddr0 + GPIO_CLEARDATAOUT;
 	gpioSetDataOutAddr1 = gpioAddr1 + GPIO_SETDATAOUT;
@@ -45,6 +49,7 @@ int main(){
 
 	gpioDataIn0 = gpioAddr0 + GPIO_DATAIN;
 	gpioDataIn1 = gpioAddr1 + GPIO_DATAIN;
+	printf("Starting...");
 	while(1){
 		if(*gpioDataIn0 & SWITCH0){
 			*gpioSetDataOutAddr0 = USR2;
