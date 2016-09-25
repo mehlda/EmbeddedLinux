@@ -18,23 +18,44 @@
 #define GPIO3_BASE 0x481AE000
 #define GPIO_SIZE  0x2000
 
+#define GPIO_DATAIN 0x138
 #define GPIO_SETDATAOUT 0x194
 #define GPIO_CLEARDATAOUT 0x190
 
-#define USR3 (1<<24)
+#define USR2 (1<<23) // GPIO port 1
+#define USR3 (1<<24) // GPIO port 1
+
+#define SWITCH0 (1<<31) //P9_13, GPIO port 0
+#define SWITCH1 (1<<16) //P9_15, GPIO port 1
 
 int main(){
-	volatile void * gpioAddr;
-	volatile unsigned int * gpioSetDataOutAddr, * gpioClearDataOutAddr;
+	volatile void * gpioAddr0, * gpioAddr1;
+	volatile unsigned int *gpioClearDataOutAddr0, * gpioClearDataOutAddr1;
+	volatile unsigned int * gpioSetDataOutAddr0,* gpioSetDataOutAddr1;
+	volatile unsigned int * gpioDataIn0, *gpioDataIn1;
 	int fd = open("/dev/mem", O_RDWR);
 
-	gpioAddr = mmap(0, GPIO_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO1_BASE);
+	gpioAddr0 = mmap(0, GPIO_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO0_BASE);
+	gpioAddr1 = mmap(0, GPIO_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO1_BASE);
 
-	gpioSetDataOutAddr = gpioAddr + GPIO_SETDATAOUT;
-	gpioClearDataOutAddr = gpioAddr + GPIO_CLEARDATAOUT;
+	gpioSetDataOutAddr0 = gpioAddr0 + GPIO_SETDATAOUT;
+	gpioClearDataOutAddr0 = gpioAddr0 + GPIO_CLEARDATAOUT;
+	gpioSetDataOutAddr1 = gpioAddr1 + GPIO_SETDATAOUT;
+	gpioClearDataOutAddr1 = gpioAddr1 + GPIO_CLEARDATAOUT;
+
+	gpioDataIn0 = gpioAddr0 + GPIO_DATAIN;
+	gpioDataIn1 = gpioAddr1 + GPIO_DATAIN;
 	while(1){
-		*gpioSetDataOutAddr = USR3;
-		*gpioClearDataOutAddr = USR3;
+		if(*gpioDataIn0 & SWITCH0){
+			*gpioSetDataOutAddr0 = USR2;
+		} else {
+			*gpioClearDataOutAddr0 = USR2;
+		}
+		if(*gpioDataIn1 & SWITCH1){
+			*gpioSetDataOutAddr0 = USR3;
+		} else {
+			*gpioClearDataOutAddr0 = USR3;
+		}
 	}
 	return 0;
 }
