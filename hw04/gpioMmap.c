@@ -1,7 +1,6 @@
 /*
  * gpioMmap.c 
  * Author: David Mehl
- * Sig Int written by Mark A. Yoder
  * 
  * Simple program to manipulate GPIO using the mmap() command
 */
@@ -33,17 +32,7 @@
 //Variable to control loop
 int active = 1;
 
-//Sig Int handler written by Mark A. Yoder
-void signalHandler(int sig)
-{
-    printf( "\nCtrl-C pressed, cleaning up and exiting...\n" );
-	active = 0;
-}
-
-
 int main(){
-	// Use Dr. Yoder's Sig Int handler
-	signal(SIGINT, signalHandler);
 
 	//Declare the memory pointers
 	printf("Declaring Variables...\n");
@@ -87,9 +76,5 @@ int main(){
 		}
 	}
 
-	//Unmap the memory and end the program
-	munmap((void *)gpioAddr0, GPIO_SIZE);
-	munmap((void *)gpioAddr1, GPIO_SIZE);
-	close(fd);
 	return 0;
 }
