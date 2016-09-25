@@ -7,9 +7,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <mman.h>
-#include <stat.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <fcntl.h> 
+#include <signal.h>
 
 #define GPIO0_BASE 0x44E07000
 #define GPIO1_BASE 0x4804C000
@@ -25,7 +26,7 @@
 int main(){
 	volatile void * gpioAddr;
 	volatile unsigned int * gpioSetDataOutAddr, * gpioClearDataOutAddr;
-	int fd = open("/dev/mem", 0_RDWR);
+	int fd = open("/dev/mem", O_RDWR);
 
 	gpioAddr = mmap(0, GPIO_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIO1_BASE);
 
