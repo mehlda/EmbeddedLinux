@@ -58,17 +58,15 @@ int main(){
 	gpioDataIn1 = gpioAddr1 + GPIO_DATAIN;
 	printf("Starting...\n");
 	while(active){
-		*gpioSetDataOutAddr0 = USR2;
-		*gpioSetDataOutAddr0 = USR3;
 		if(*gpioDataIn0 & SWITCH0){
-			*gpioSetDataOutAddr0 = USR2;
+			*gpioSetDataOutAddr1 = USR2;
 		} else {
-			*gpioClearDataOutAddr0 = USR2;
+			*gpioClearDataOutAddr1 = USR2;
 		}
 		if(*gpioDataIn1 & SWITCH1){
-			*gpioSetDataOutAddr0 = USR3;
+			*gpioSetDataOutAddr1 = USR3;
 		} else {
-			*gpioClearDataOutAddr0 = USR3;
+			*gpioClearDataOutAddr1 = USR3;
 		}
 	}
 
