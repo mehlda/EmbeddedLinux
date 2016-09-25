@@ -34,16 +34,16 @@
 int active = 1;
 
 //Sig Int handler written by Mark A. Yoder
-void signal_handler(int sig)
+void signalHandler(int sig)
 {
     printf( "\nCtrl-C pressed, cleaning up and exiting...\n" );
-	keepgoing = 0;
+	active = 0;
 }
 
 
 int main(){
 	// Use Dr. Yoder's Sig Int handler
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, signalHandler);
 
 	//Declare the memory pointers
 	printf("Declaring Variables...\n");
