@@ -106,24 +106,20 @@ function LEDclick(i, j) {
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
-        for (i = 0; i < disp.length; i+=2) {
+        for (i = 0; i < disp.length/2; i++) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
                 $('#id' + i + '_' + j).removeClass('green');
                 $('#id' + i + '_' + j).removeClass('red');
                 $('#id' + i + '_' + j).removeClass('both');
-                alert(i + ' ' + j);
-                if (((disp[i] >> j) & 0x1) === 1) {
-                    if (((disp[i + 1] >> j) & 0x1) === 1) {
-                        alert(i + ' ' + j + ' ' + 'both');
+                if (((disp[i*2] >> j) & 0x1) === 1) {
+                    if (((disp[i*2 + 1] >> j) & 0x1) === 1) {
                         $('#id' + i + '_' + j).addClass('both');
                 } else {
-                    alert(i + ' ' + j + ' ' + 'green');
                     $('#id' + i + '_' + j).addClass('green');            
                 }
             } else {
-                if (((disp[i + 1] >> j) & 0x1) === 1) {
-                    alert(i + ' ' + j + ' ' + 'red');
+                if (((disp[i*2 + 1] >> j) & 0x1) === 1) {
                     $('#id' + i + '_' + j).addClass('red');
                 } 
             }
