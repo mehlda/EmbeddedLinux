@@ -42,9 +42,7 @@ function LEDclick(i, j) {
         disp[i] ^= 0x1<<j;
     }
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0x'+disp[i].toString(16);
-    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+1, 
-                 disp: '0x'+disp[i+1].toString(16)});
+			     disp: '0x'+disp[i].toString(16)+' 0x'+disp[i+1].toString(16)});
 }
 
     function connect() {
@@ -102,22 +100,38 @@ function LEDclick(i, j) {
         // Every other pair of digits are Green. The others are red.
         // Ignore the red.
         // Convert from hex.
-        for (i = 0; i < data.length; i += 2) {
-            disp[i / 2] = parseInt(data[i], 16);
+        for (i = 0; i < data.length; i ++) {
+            disp[i] = parseInt(data[i], 16);
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
-        // for (i = 0; i < disp.length; i++) {
-        //     // j cycles through each bit
-        //     for (j = 0; j < 8; j++) {
-        //         if (((disp[i] >> j) & 0x1) === 1) {
-        //             $('#id' + i + '_' + j).addClass('on');
-        //         } else {
-        //             $('#id' + i + '_' + j).removeClass('on');
-        //         }
-        //     }
-        // }
+        for (i = 0; i < disp.length; i+=2) {
+            // j cycles through each bit
+            for (j = 0; j < 8; j++) {
+                if (((disp[i] >> j) & 0x1) === 1) {
+                    if (((disp[i + 1] >> j) & 0x1) === 1) {
+                        $('#id' + i + '_' + j).removeClass('green');
+                        $('#id' + i + '_' + j).removeClass('red');
+                        $('#id' + i + '_' + j).addClass('both');
+                } else {
+                    $('#id' + i + '_' + j).removeClass('red');
+                    $('#id' + i + '_' + j).removeClass('both');
+                    $('#id' + i + '_' + j).addClass('green');            
+                }
+            } else {
+                if (((disp[i + 1] >> j) & 0x1) === 1) {
+                    $('#id' + i + '_' + j).removeClass('green');
+                    $('#id' + i + '_' + j).removeClass('both');
+                    $('#id' + i + '_' + j).addClass('red');
+                } else {
+                    $('#id' + i + '_' + j).removeClass('green');
+                    $('#id' + i + '_' + j).removeClass('red');
+                    $('#id' + i + '_' + j).removeClass('both');
+                }
+            }
+        }
     }
+}
 
     function status_update(txt){
 	$('#status').html(txt);
