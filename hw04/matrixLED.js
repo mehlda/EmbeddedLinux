@@ -34,7 +34,7 @@ function LEDclick(i, j) {
             $('#id'+i+'_'+j).addClass('both');
             disp[i + 1] ^= 0x1<<j;
         }
-    } elseif(disp[i + 1]>>j&0x1 === 1) {
+    } else if(disp[i + 1]>>j&0x1 === 1) {
         $('#id'+i+'_'+j).removeClass('red');
         disp[i + 1] ^= 0x1<<j;
     } else {
