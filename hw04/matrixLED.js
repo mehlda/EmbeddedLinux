@@ -42,7 +42,7 @@ function LEDclick(i, j) {
         disp[i] ^= 0x1<<j;
     }
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0x'+disp[i].toString(16)+' 0x'+disp[i+1].toString(16)});
+			     disp: '0x'+disp[i].toString(16)+' 0x'+disp[i+1].toString(16)+' i'});
 }
 
     function connect() {
