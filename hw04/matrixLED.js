@@ -109,29 +109,23 @@ function LEDclick(i, j) {
         for (i = 0; i < disp.length; i+=2) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
+                $('#id' + i + '_' + j).removeClass('green');
+                $('#id' + i + '_' + j).removeClass('red');
+                $('#id' + i + '_' + j).removeClass('both');
                 if (((disp[i] >> j) & 0x1) === 1) {
                     if (((disp[i + 1] >> j) & 0x1) === 1) {
-                        $('#id' + i + '_' + j).removeClass('green');
-                        $('#id' + i + '_' + j).removeClass('red');
                         $('#id' + i + '_' + j).addClass('both');
                 } else {
-                    $('#id' + i + '_' + j).removeClass('red');
-                    $('#id' + i + '_' + j).removeClass('both');
                     $('#id' + i + '_' + j).addClass('green');            
                 }
             } else {
                 if (((disp[i + 1] >> j) & 0x1) === 1) {
-                    $('#id' + i + '_' + j).removeClass('green');
-                    $('#id' + i + '_' + j).removeClass('both');
                     $('#id' + i + '_' + j).addClass('red');
-                } else {
-                    $('#id' + i + '_' + j).removeClass('green');
-                    $('#id' + i + '_' + j).removeClass('red');
-                    $('#id' + i + '_' + j).removeClass('both');
-                }
+                } 
             }
         }
     }
+    
     alert(disp);
     var initMatrix = '';
     for( i = 0; i < disp.length; i++){
