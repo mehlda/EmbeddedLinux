@@ -106,7 +106,7 @@ function LEDclick(i, j) {
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
-        for (i = 0; i < disp.length; i+=2) {
+        for (i = 0; i < disp.length/2; i+=2) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
                 $('#id' + i + '_' + j).removeClass('green');
