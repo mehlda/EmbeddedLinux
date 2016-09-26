@@ -1,0 +1,22 @@
+Question 1:
+The browser sends messages that elicit a response from the bone. One such message is 'i2cset' which 
+is followed by the bone's response of executing the i2cset command in order to send data, the first
+of which is configuration data. The browser also sends a message called 'matrix' which causes the
+bone to perform an i2cdump for the given i2c bus and sends the results of the operation back to the
+browser. There are also various messages for connecting to and disconnecting from the server.
+
+Question 2:
+When an LED is clicked, it calls LEDclick(i,j) which sends an i2cset command to the bone that will
+tell the bone what the matrix should be, and will attach a class to the LED that distinguishes it
+as 'on'
+
+Question 3:
+'background-color' is the entry in the .css file that determines the color of the LED
+
+Question 4: 
+I intend to use additional classes. Rather than having an 'on' state, I will implement a 'green',
+'red', and 'both' state that will handle the coloring of the matrix. This will handle the browser
+display portion. For the actual matrix, I will check what LEDs are on, apply the appropriate
+state, and then make a decision about what piece of the array to manipulate. Then I will add an
+additional byte to the i2cset message that is normally sent to encapsulate the two bytes needed
+for both red and green color of each column
