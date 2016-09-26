@@ -24,25 +24,25 @@ $("#slider1").slider({min:0, max:15, slide: function(event, ui) {
 // Send one column when LED is clicked.
 function LEDclick(i, j) {
 //	alert(i+","+j+" clicked");
-    if(disp[i]>>j&0x1 === 1) {
-        if(disp[i + 1]>>j&0x1 === 1) {
+    if(disp[i*2]>>j&0x1 === 1) {
+        if(disp[i*2+ 1]>>j&0x1 === 1) {
             $('#id'+i+'_'+j).removeClass('both');
             $('#id'+i+'_'+j).addClass('red');
-            disp[i] ^= 0x1<<j;
+            disp[i*2] ^= 0x1<<j;
         } else {
             $('#id'+i+'_'+j).removeClass('green');
             $('#id'+i+'_'+j).addClass('both');
-            disp[i + 1] ^= 0x1<<j;
+            disp[i*2 + 1] ^= 0x1<<j;
         }
-    } else if(disp[i + 1]>>j&0x1 === 1) {
+    } else if(disp[i*2 + 1]>>j&0x1 === 1) {
         $('#id'+i+'_'+j).removeClass('red');
-        disp[i + 1] ^= 0x1<<j;
+        disp[i*2 + 1] ^= 0x1<<j;
     } else {
         $('#id'+i+'_'+j).addClass('green');
-        disp[i] ^= 0x1<<j;
+        disp[i*2] ^= 0x1<<j;
     }
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0x'+disp[i].toString(16)+' 0x'+disp[i+1].toString(16)+' i'});
+			     disp: '0x'+disp[i*2].toString(16)+' 0x'+disp[i*2+1].toString(16)+' i'});
 }
 
     function connect() {
