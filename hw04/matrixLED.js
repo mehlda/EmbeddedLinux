@@ -92,9 +92,8 @@ function LEDclick(i, j) {
     // data is a string of 16 values, each a pair of hex digits.
     function matrix(data) {
         var i, j;
-        console.log("Data:");
-        console.log(data);
         disp = [];
+        alert(data);
         //        status_update("i2c: " + data);
         // Make data an array, each entry is a pair of digits
         data = data.split(" ");
@@ -102,7 +101,7 @@ function LEDclick(i, j) {
         // Every other pair of digits are Green. The others are red.
         // Ignore the red.
         // Convert from hex.
-        for (i = 0; i < data.length; i ++) {
+        for (i = 0; i < data.length; i++) {
             disp[i] = parseInt(data[i], 16);
         }
         //        status_update("disp: " + disp);
@@ -133,6 +132,7 @@ function LEDclick(i, j) {
             }
         }
     }
+    alert(disp);
     var initMatrix = '';
     for( i = 0; i < disp.length; i++){
         initMatrix += '0x' + disp[i] + ' ';
