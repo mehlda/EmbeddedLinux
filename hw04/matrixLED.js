@@ -114,18 +114,21 @@ function LEDclick(i, j) {
                 $('#id' + i + '_' + j).removeClass('both');
                 if (((disp[i] >> j) & 0x1) === 1) {
                     if (((disp[i + 1] >> j) & 0x1) === 1) {
+                        alert(i + ' ' + j + ' ' + 'both');
                         $('#id' + i + '_' + j).addClass('both');
                 } else {
+                    alert(i + ' ' + j + ' ' + 'green');
                     $('#id' + i + '_' + j).addClass('green');            
                 }
             } else {
                 if (((disp[i + 1] >> j) & 0x1) === 1) {
+                    alert(i + ' ' + j + ' ' + 'red');
                     $('#id' + i + '_' + j).addClass('red');
                 } 
             }
         }
     }
-    
+
     alert(disp);
     var initMatrix = '';
     for( i = 0; i < disp.length; i++){
