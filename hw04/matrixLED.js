@@ -42,9 +42,9 @@ function LEDclick(i, j) {
         disp[i] ^= 0x1<<j;
     }
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0x'+disp[i].toString(16)+' 0x'+disp[i+1].toString(16)});
-        socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+1, 
-                 disp: '0x'+'0x'+disp[i+1].toString(16)});
+			     disp: '0x'+disp[i].toString(16);
+    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+1, 
+                 disp: '0x'+disp[i+1].toString(16)});
 }
 
     function connect() {
@@ -107,16 +107,16 @@ function LEDclick(i, j) {
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
-        for (i = 0; i < disp.length; i++) {
-            // j cycles through each bit
-            for (j = 0; j < 8; j++) {
-                if (((disp[i] >> j) & 0x1) === 1) {
-                    $('#id' + i + '_' + j).addClass('on');
-                } else {
-                    $('#id' + i + '_' + j).removeClass('on');
-                }
-            }
-        }
+        // for (i = 0; i < disp.length; i++) {
+        //     // j cycles through each bit
+        //     for (j = 0; j < 8; j++) {
+        //         if (((disp[i] >> j) & 0x1) === 1) {
+        //             $('#id' + i + '_' + j).addClass('on');
+        //         } else {
+        //             $('#id' + i + '_' + j).removeClass('on');
+        //         }
+        //     }
+        // }
     }
 
     function status_update(txt){
