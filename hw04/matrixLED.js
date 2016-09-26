@@ -131,6 +131,12 @@ function LEDclick(i, j) {
             }
         }
     }
+    var initMatrix = '';
+    for( i = 0; i < disp.length; i++){
+        initMatrix += '0x' + disp[i] + ' ';
+    }
+    initMatrix += 'i';
+    socket.emit('i2cset', {i2cNum: i2cNum, i: 0, disp: initMatrix});
 }
 
     function status_update(txt){
