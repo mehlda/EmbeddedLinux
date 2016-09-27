@@ -12,6 +12,7 @@ This means: D on the matrix to P9_20, C on the matrix to P9_19, and + and -
 to 3.3V and ground, respectively. You may also require the addition of
 4.7K pull-up resistors on the D and C lines.
 ================================================================================
+
 gpioMmap.c
 --------------------------------------------------------------------------------
 Run the included Makefile to compile this program. Use 'make clean' to remove
@@ -26,6 +27,7 @@ Wire a button to P9_13 along with a pulldown resistor on one pole and a
 connection to 3.3V on the other pole. Wire another button in the same
 fashion to P9_15.
 ================================================================================
+
 answersToQuestions.txt
 --------------------------------------------------------------------------------
 This file contains my answers to questions 1-4
