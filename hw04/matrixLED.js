@@ -3,6 +3,8 @@
         i2cNum  = "0x70",
 	disp = [];
 
+// File modified by David Mehl to control both LEDs
+
 // Create a matrix of LEDs inside the <table> tags.
 var matrixData;
 for(var j=7; j>=0; j--) {
@@ -26,23 +28,28 @@ function LEDclick(i, j) {
 //	alert(i+","+j+" clicked");
     if(disp[i*2]>>j&0x1 === 1) {
         if(disp[i*2+ 1]>>j&0x1 === 1) {
+            //If currently both...
             $('#id'+i+'_'+j).removeClass('both');
             $('#id'+i+'_'+j).addClass('red');
             disp[i*2] ^= 0x1<<j;
         } else {
+            //If currently green...
             $('#id'+i+'_'+j).removeClass('green');
             $('#id'+i+'_'+j).addClass('both');
             disp[i*2 + 1] ^= 0x1<<j;
         }
     } else if(disp[i*2 + 1]>>j&0x1 === 1) {
+        //If currently red...
         $('#id'+i+'_'+j).removeClass('red');
         disp[i*2 + 1] ^= 0x1<<j;
     } else {
+        //If currently off...
         $('#id'+i+'_'+j).addClass('green');
         disp[i*2] ^= 0x1<<j;
     }
+    //Grab the two bytes for red and green and send them to the matrix
     socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
-			     disp: '0x'+disp[i*2].toString(16)+' 0x'+disp[i*2+1].toString(16)+' i'});
+			     disp: '0x'+disp[i*2].toString(16)+' 0x'+disp[i*2+1].toString(16)+' i'}); //Use i mode to send multiple bytes
 }
 
     function connect() {
@@ -93,7 +100,7 @@ function LEDclick(i, j) {
     function matrix(data) {
         var i, j;
         disp = [];
-        alert(data);
+        //alert(data);
         //        status_update("i2c: " + data);
         // Make data an array, each entry is a pair of digits
         data = data.split(" ");
@@ -109,24 +116,28 @@ function LEDclick(i, j) {
         for (i = 0; i < disp.length/2; i++) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
+                //Clear the current settings for color
                 $('#id' + i + '_' + j).removeClass('green');
                 $('#id' + i + '_' + j).removeClass('red');
                 $('#id' + i + '_' + j).removeClass('both');
                 if (((disp[i*2] >> j) & 0x1) === 1) {
                     if (((disp[i*2 + 1] >> j) & 0x1) === 1) {
+                        //If both then...
                         $('#id' + i + '_' + j).addClass('both');
                 } else {
+                    //If green then...
                     $('#id' + i + '_' + j).addClass('green');            
                 }
             } else {
                 if (((disp[i*2 + 1] >> j) & 0x1) === 1) {
+                    //If red then...
                     $('#id' + i + '_' + j).addClass('red');
                 } 
             }
         }
     }
 
-    alert(disp);
+    //alert(disp);
     var initMatrix = '';
     for( i = 0; i < disp.length; i++){
         initMatrix += '0x' + disp[i] + ' ';
