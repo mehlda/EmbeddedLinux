@@ -39,3 +39,25 @@ function tHandler(x){
 		});
 	}
 }
+
+/*
+
+Public URL
+
+http://data.sparkfun.com/streams/NJOV7pXQzyfZd4N7wdrN
+
+Public Key
+
+NJOV7pXQzyfZd4N7wdrN
+
+Private Key
+
+5dZvwW5XzyHKJlPrqJNP
+
+Keep this key secret, and in a safe place.  You will not be able to retrieve it.
+Delete Key
+
+BpbAdYGj4WuZarA9xa5A
+
+This key can only be used once.  Keep this key secret, and in a safe place.  You will not be able to retrieve it.
+*/
