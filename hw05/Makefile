@@ -43,19 +43,20 @@
 #        to have a rule named "all" listed first (as below).
 # 
 # ***************************************************************
-CFLAGS:= -g -O3
 
-
+# Modified by David Mehl
 # -----------------------
 # ------ includes -------
 # -----------------------
 
-
+-include ./path.mak
 
 # --------------------------------
 # ------ user-defined vars -------
 # --------------------------------
-
+CFLAGS:= -g -O3
+CC:= $(LINUXarm_GCC)
+LINKER_FLAGS:= -lstdc++
 
 
 # -----------------------
@@ -68,7 +69,8 @@ CFLAGS:= -g -O3
 # However, in the final Beagle makefile, you'll see more
 # targets listed. 
 
-
+.PHONY: all
+all: app.arm
 
 
 
@@ -76,7 +78,8 @@ CFLAGS:= -g -O3
 # ------ executable rule (.x) -------
 # -----------------------------------
 app.arm : app.o
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $(LINKER_FLAGS) $^ -o $@
+	@echo Successfully created $@
 
 
 
@@ -85,8 +88,9 @@ app.arm : app.o
 # ------ intermeditate object files rule (.o) -------
 # ---------------------------------------------------
 # gcc  compiler flag c file all dependency output target
-app.o : app.c
+%.o : %.c
 	$(CC) $(CFLAGS) -c $^ -o $@
+	@echo Successfully created $@
 	
 	
 	
@@ -97,9 +101,10 @@ app.o : app.c
 # The "clean" rule should remove all files created by
 # the makefile (e.g. the executables and intermediate
 # files).
-
-clean: app.o app.arm
+.PHONY: clean
+clean: *.o *.arm
 	$(RM) $^
+
 
 	
 
@@ -114,6 +119,10 @@ clean: app.o app.arm
 # make sure they are set properly - this helps with 
 # debugging makefile errors.
 
-
+.PHONY: test
+test:
+	@echo CC = $(CC)
+	@echo CFLAGS = $(CFLAGS)
+	@echo LINKER_FLAGS = $(LINKER_FLAGS)
 	
 
