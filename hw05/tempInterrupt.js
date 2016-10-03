@@ -41,15 +41,9 @@ console.log(urlBase);
 function tHandler(){
 	var url = urlBase;
 	sensor0.readBytes(0x00, 1, function(err, res){
-		console.log("Sensor 0 temperature:");
-		console.log(res[0]);
-		url += "&temp0" + res[0].toString();
+		url += "&temp0=" + res[0].toString();
 		sensor1.readBytes(0x00, 1, function(err, res){
-			console.log("Sensor 1 temperature:");
 			url += "&temp1=" + res[0].toString();
-			console.log(res[0]);
-			console.log(res[0].toString);
-			console.log(url);
 			request(url, function (error, response, body){
 				if(!error && response.statusCode === 200){
 					console.log(body)
