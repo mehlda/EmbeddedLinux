@@ -26,13 +26,15 @@ var sensor1 = new i2c(tmpAddr1, {
 });
 
 function main(){
-	setInterval(tHandler, delay);
+	//setInterval(tHandler, delay);
 }
 
 //Set up communication variables
 var keyFile = "/root/EmbeddedLinux/hw05/keys_tmp101.json";
 var keys = JSON.parse(fs.readFileSync(keyFile));
 var urlBase = keys.inputURL + "/?private_key=" + keys.private_key + "&temp0=%s&temp1%s";
+console.log(keys);
+console.log(urlBase);
 
 
 //Handles the temperature sending
