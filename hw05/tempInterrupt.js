@@ -36,8 +36,7 @@ var urlBase = keys.inputURL + "/?private_key=" + keys.private_key + "&temp0=%s&t
 
 
 //Handles the temperature sending
-function tHandler(x){
-	if(x.attached) return;
+function tHandler(){
 	var temp = [0,0];
 	sensor0.readBytes(0x00, 2, function(err, res){
 		console.log("Sensor 0 temperature:");
