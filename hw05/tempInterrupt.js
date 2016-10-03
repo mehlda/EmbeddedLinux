@@ -2,6 +2,8 @@
 //Get the packages we need
 var b = require('bonescript');
 var i2c = require('i2c');
+var util = require('util');
+var request = require('request');
 
 //setup the i2c device for the tmp101.
 var bus = '/dev/i2c-2';
@@ -23,21 +25,35 @@ function main(){
 	setInterval(tHandler, delay);
 }
 
+//Set up communication variables
+var keyFile = "~/EmbeddedLinux/hw05/keys_tmp101.json";
+var keys = JSON.parse(fs.readFileSync(keyFile));
+var urlBase = keys.inputURL + "/?private_key=" + keys.private_key + "&temp0=%s&temp1%s";
 
-//Handles the temperature alerts
+
+//Handles the temperature sending
 function tHandler(x){
 	if(x.attached) return;
-	if(x.pin.key === alert0){
-		sensor0.readBytes(0x00, 2, function(err, res){
-			console.log("Sensor 0 temperature:");
-			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
-		});
-	} else {
+	var temp = [0,0];
+	sensor0.readBytes(0x00, 2, function(err, res){
+		console.log("Sensor 0 temperature:");
+		console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
+		temp[0] = res;
 		sensor1.readBytes(0x00, 2, function(err, res){
 			console.log("Sensor 1 temperature:");
 			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
+			temp[1] = res;
+			var url = util.format(urlBase, temp[0], temp[1]);
+			request(url, function (error, response, body){
+				if(!error && response.statusCode === 200){
+					console.log(body)
+				} else {
+					console.log(error);
+				}
+			});
+
 		});
-	}
+	});
 }
 
 /*
