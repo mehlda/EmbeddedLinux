@@ -32,23 +32,22 @@ function main(){
 //Set up communication variables
 var keyFile = "/root/EmbeddedLinux/hw05/keys_tmp101.json";
 var keys = JSON.parse(fs.readFileSync(keyFile));
-var urlBase = keys.inputUrl + "?private_key=" + keys.privateKey + "&temp0=%s&temp1%s";
+var urlBase = keys.inputUrl + "?private_key=" + keys.privateKey;
 console.log(keys);
 console.log(urlBase);
 
 
 //Handles the temperature sending
 function tHandler(){
-	var temp = [0,0];
+	var url = urlBase;
 	sensor0.readBytes(0x00, 2, function(err, res){
 		console.log("Sensor 0 temperature:");
 		console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
-		temp[0] = res;
+		url += "&temp0" + res;
 		sensor1.readBytes(0x00, 2, function(err, res){
 			console.log("Sensor 1 temperature:");
 			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
-			temp[1] = res;
-			var url = util.format(urlBase, temp[0], temp[1]);
+			var url += "&temp1=" + res;
 			console.log(url);
 			request(url, function (error, response, body){
 				if(!error && response.statusCode === 200){
