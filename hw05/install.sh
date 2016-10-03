@@ -5,3 +5,5 @@ npm install i2c
 npm install util
 npm install request
 echo Finished installing packages
+echo Running program...
+./tempDataLog.js
