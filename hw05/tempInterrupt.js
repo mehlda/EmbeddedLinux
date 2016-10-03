@@ -1,9 +1,9 @@
 #!/usr/bin/env node
+// Author: David Mehl
 //Get the packages we need
 var b = require('bonescript');
 var i2c = require('i2c');
 var fs = require('fs');
-var util = require('util');
 var request = require('request');
 
 //setup the i2c device for the tmp101.
@@ -16,7 +16,7 @@ var tmpAddr1 = 0x48;
 var delay = 1000;
 
 
-//Make the sensor object
+//Make the sensor objects
 var sensor0 = new i2c(tmpAddr0, {
     device: bus
 });
@@ -33,16 +33,16 @@ function main(){
 var keyFile = "/root/EmbeddedLinux/hw05/keys_tmp101.json";
 var keys = JSON.parse(fs.readFileSync(keyFile));
 var urlBase = keys.inputUrl + "?private_key=" + keys.privateKey;
-console.log(keys);
-console.log(urlBase);
 
 
 //Handles the temperature sending
 function tHandler(){
 	var url = urlBase;
 	sensor0.readBytes(0x00, 1, function(err, res){
+		//add the first temperature reading
 		url += "&temp0=" + res[0].toString();
 		sensor1.readBytes(0x00, 1, function(err, res){
+			//add the second temperature reading
 			url += "&temp1=" + res[0].toString();
 			request(url, function (error, response, body){
 				if(!error && response.statusCode === 200){
