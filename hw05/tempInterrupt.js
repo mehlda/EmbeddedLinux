@@ -2,6 +2,7 @@
 //Get the packages we need
 var b = require('bonescript');
 var i2c = require('i2c');
+var fs = require('fs');
 var util = require('util');
 var request = require('request');
 
