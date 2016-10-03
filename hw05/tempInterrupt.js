@@ -43,11 +43,11 @@ function tHandler(){
 	sensor0.readBytes(0x00, 2, function(err, res){
 		console.log("Sensor 0 temperature:");
 		console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
-		url += "&temp0" + res;
+		url += "&temp0" + res.toString();
 		sensor1.readBytes(0x00, 2, function(err, res){
 			console.log("Sensor 1 temperature:");
 			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
-			url += "&temp1=" + res;
+			url += "&temp1=" + res.toString();
 			console.log(url);
 			request(url, function (error, response, body){
 				if(!error && response.statusCode === 200){
