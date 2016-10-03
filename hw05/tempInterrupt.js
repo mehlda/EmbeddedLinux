@@ -57,6 +57,8 @@ function tHandler(x){
 	});
 }
 
+main();
+
 /*
 
 Public URL
