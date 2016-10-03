@@ -49,6 +49,7 @@ function tHandler(){
 			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
 			temp[1] = res;
 			var url = util.format(urlBase, temp[0], temp[1]);
+			console.log(url);
 			request(url, function (error, response, body){
 				if(!error && response.statusCode === 200){
 					console.log(body)
