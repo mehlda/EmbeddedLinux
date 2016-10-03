@@ -27,7 +27,7 @@ function main(){
 }
 
 //Set up communication variables
-var keyFile = "~/EmbeddedLinux/hw05/keys_tmp101.json";
+var keyFile = "/root/EmbeddedLinux/hw05/keys_tmp101.json";
 var keys = JSON.parse(fs.readFileSync(keyFile));
 var urlBase = keys.inputURL + "/?private_key=" + keys.private_key + "&temp0=%s&temp1%s";
 
