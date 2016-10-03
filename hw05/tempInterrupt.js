@@ -12,6 +12,9 @@ var bus = '/dev/i2c-2';
 var tmpAddr0 = 0x49;
 var tmpAddr1 = 0x48;
 
+// Delay between data uploads
+var delay = 1000;
+
 
 //Make the sensor object
 var sensor0 = new i2c(tmpAddr0, {
