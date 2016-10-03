@@ -48,6 +48,8 @@ function tHandler(){
 			console.log("Sensor 1 temperature:");
 			console.log(((res[0]<<8) | res[1]) / 256 * 9 / 5 + 32);
 			url += "&temp1=" + res.toString();
+			console.log(res);
+			console.log(res.toString);
 			console.log(url);
 			request(url, function (error, response, body){
 				if(!error && response.statusCode === 200){
