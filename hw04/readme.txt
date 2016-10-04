@@ -36,3 +36,11 @@ This file contains my answers to questions 1-4
 I did not edit gpioThru.c as it already accomplished the designated goals
 from the homework description. I simply created gpioMmap.c to accomplish
 the goal of using two mmap calls
+
+==========
+Prof. Yoder's comments
+I don't see the Memory Map like figure 2-5.
+Otherwise it looks good.
+Late
+
+Grade:  8/10
