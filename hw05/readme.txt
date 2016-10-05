@@ -32,4 +32,6 @@ plotTMP101.html
 This file has been modified from the given file in order to pull data from my own data
 on the sparkfun site. Open with a web browser to see the data
 
+**************
+The kernel compiled successfully by following the provided instructions
 
