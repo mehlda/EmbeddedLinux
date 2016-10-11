@@ -34,45 +34,45 @@ led3 = "USR3"
 # create initialization function
 def setup():
 	# Start button input
-	GPIO.setup(startButton, INPUT)
+	GPIO.setup(startButton, GPIO.IN)
 	GPIO.add_event_detect("P9_12", GPIO.FALLING)
 
 	if GPIO.event_detected("P9_12"):
 	    print "event detected!"
 
 	# Stepper outputs
-	GPIO.setup(stepper0, OUTPUT)
-	GPIO.setup(stepper1, OUTPUT)
-	GPIO.setup(stepper2, OUTPUT)
-	GPIO.setup(stepper3, OUTPUT)
+	GPIO.setup(stepper0, GPIO.OUT)
+	GPIO.setup(stepper1, GPIO.OUT)
+	GPIO.setup(stepper2, GPIO.OUT)
+	GPIO.setup(stepper3, GPIO.OUT)
 
 	# LED outputs
-	GPIO.setup(led0, OUTPUT)
-	GPIO.setup(led1, OUTPUT)
-	GPIO.setup(led2, OUTPUT)
-	GPIO.setup(led3, OUTPUT)
+	GPIO.setup(led0, GPIO.OUT)
+	GPIO.setup(led1, GPIO.OUT)
+	GPIO.setup(led2, GPIO.OUT)
+	GPIO.setup(led3, GPIO.OUT)
 
 def loop():
 	if GPIO.input(led0):
-		GPIO.output(led0, LOW)
+		GPIO.output(led0, GPIO.LOW)
 	else:
-		GPIO.output(led0, HIGH)
+		GPIO.output(led0, GPIO.HIGH)
 
 	if GPIO.input(led1):
-		GPIO.output(led1, LOW)
+		GPIO.output(led1, GPIO.LOW)
 	else:
-		GPIO.output(led1, HIGH)
+		GPIO.output(led1, GPIO.HIGH)
 
 	time.sleep(.5)
 	if GPIO.input(led2):
-		GPIO.output(led2, LOW)
+		GPIO.output(led2, GPIO.LOW)
 	else:
-		GPIO.output(led2, HIGH)
+		GPIO.output(led2, GPIO.HIGH)
 		
 	if GPIO.input(led3):
-		GPIO.output(led3, LOW)
+		GPIO.output(led3, GPIO.LOW)
 	else:
-		GPIO.output(led3, HIGH)
+		GPIO.output(led3, GPIO.HIGH)
 	time.sleep(.5)
 
 # Start
