@@ -80,4 +80,5 @@ if GPIO.event_detected(startButton):
 	print "event detected!"
 
 while True:
+	GPIO.wait_for_edge(startButton, GPIO.RISING)
 	loop()
