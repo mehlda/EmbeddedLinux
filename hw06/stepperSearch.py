@@ -50,6 +50,8 @@ def setup():
 	GPIO.setup(led3, GPIO.OUT)
 
 def loop():
+	if GPIO.event_detected("P9_12"):
+    	print "event detected!"
 	if GPIO.input(led0):
 		GPIO.output(led0, GPIO.LOW)
 	else:
@@ -79,7 +81,3 @@ setup()
 
 while True:
 	loop()
-	if GPIO.event_detected("P9_12"):
-    	print "event detected!"
-
-
