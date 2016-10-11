@@ -76,9 +76,10 @@ def loop():
 
 setup()
 
-if GPIO.event_detected("P9_12"):
-    print "event detected!"
     
 while True:
 	loop()
 
+
+if GPIO.event_detected("P9_12"):
+    print "event detected!"
