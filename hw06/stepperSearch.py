@@ -35,7 +35,7 @@ led3 = "USR3"
 def setup():
 	# Start button input
 	GPIO.setup(startButton, GPIO.IN)
-	GPIO.add_event_detect("P9_12", GPIO.FALLING)
+	GPIO.add_event_detect(startButton, GPIO.FALLING)
 
 	# Stepper outputs
 	GPIO.setup(stepper0, GPIO.OUT)
@@ -50,8 +50,7 @@ def setup():
 	GPIO.setup(led3, GPIO.OUT)
 
 def loop():
-	if GPIO.event_detected("P9_12"):
-    	print "event detected!"
+
 	if GPIO.input(led0):
 		GPIO.output(led0, GPIO.LOW)
 	else:
@@ -77,7 +76,8 @@ def loop():
 # Start
 
 setup()
-
+if GPIO.event_detected(startButton):
+	print "event detected!"
 
 while True:
 	loop()
