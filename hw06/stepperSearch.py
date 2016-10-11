@@ -50,25 +50,25 @@ def setup():
 	GPIO.setup(led3, OUTPUT)
 
 def loop():
-	if GPIO.input(led0)
+	if GPIO.input(led0):
 		GPIO.output(led0, LOW)
-	else
+	else:
 		GPIO.output(led0, HIGH)
 
-	if GPIO.input(led1)
+	if GPIO.input(led1):
 		GPIO.output(led1, LOW)
-	else
+	else:
 		GPIO.output(led1, HIGH)
 
 	delay(500)
-	if GPIO.input(led2)
+	if GPIO.input(led2):
 		GPIO.output(led2, LOW)
-	else
+	else:
 		GPIO.output(led2, HIGH)
 		
-	if GPIO.input(led3)
+	if GPIO.input(led3):
 		GPIO.output(led3, LOW)
-	else
+	else:
 		GPIO.output(led3, HIGH)
 	delay(500)
 
