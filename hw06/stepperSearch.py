@@ -28,6 +28,8 @@ led1 = "USR1"
 led2 = "USR2"
 led3 = "USR3"
 
+sequence = (0x1,0x2,0x4,0x8)
+
 
 
 
@@ -50,6 +52,13 @@ def setup():
 	GPIO.setup(led3, GPIO.OUT)
 
 def loop():
+
+	for i in sequence:
+		GPIO.output(stepper0, (i >> 0) & 0x1)
+		GPIO.output(stepper1, (i >> 1) & 0x1)
+		GPIO.output(stepper2, (i >> 2) & 0x1)
+		GPIO.output(stepper3, (i >> 3) & 0x1)
+		time.sleep(.05)
 
 	if GPIO.input(led0):
 		GPIO.output(led0, GPIO.LOW)
