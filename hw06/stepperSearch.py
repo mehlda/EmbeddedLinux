@@ -5,6 +5,8 @@
 #import py library
 import Adafruit_BBIO.GPIO as GPIO
 import Adafruit_BBIO.ADC as ADC
+import time
+
 
 ADC.setup()
 
@@ -61,7 +63,7 @@ def loop():
 	else:
 		GPIO.output(led1, HIGH)
 
-	delay(500)
+	time.sleep(.5)
 	if GPIO.input(led2):
 		GPIO.output(led2, LOW)
 	else:
@@ -71,8 +73,12 @@ def loop():
 		GPIO.output(led3, LOW)
 	else:
 		GPIO.output(led3, HIGH)
-	delay(500)
+	time.sleep(.5)
 
 # Start
-run(setup, loop)
+
+setup()
+
+while True:
+	loop()
 
