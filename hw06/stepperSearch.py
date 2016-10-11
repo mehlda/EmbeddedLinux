@@ -37,9 +37,6 @@ def setup():
 	GPIO.setup(startButton, GPIO.IN)
 	GPIO.add_event_detect("P9_12", GPIO.FALLING)
 
-	if GPIO.event_detected("P9_12"):
-	    print "event detected!"
-
 	# Stepper outputs
 	GPIO.setup(stepper0, GPIO.OUT)
 	GPIO.setup(stepper1, GPIO.OUT)
@@ -79,6 +76,9 @@ def loop():
 
 setup()
 
+if GPIO.event_detected("P9_12"):
+    print "event detected!"
+    
 while True:
 	loop()
 
