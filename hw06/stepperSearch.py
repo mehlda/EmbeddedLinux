@@ -15,7 +15,7 @@ ADC.setup()
 ptInputLeft = "AIN0"		# P9_39
 ptInputRight = "AIN1"		# P9_40
 
-stepper0 = "GPIO0_30"		# P9_11
+stepper0 = "P9_11"		# P9_11
 stepper1 = "GPIO0_31"		# P9_13
 stepper2 = "GPIO1_16"		# P9_15
 stepper3 = "GPIO1_19"		# P9_16
