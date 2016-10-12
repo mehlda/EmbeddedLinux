@@ -54,19 +54,19 @@ def setup():
 def loop():
 	print "starting"
 	for i in counterClockwise:
-		if((i >> 0) & 0x1):
+		if((i >> 3) & 0x1):
 			GPIO.output(stepper0, GPIO.HIGH)
 		else:
 			GPIO.output(stepper0, GPIO.LOW)
-		if((i >> 1) & 0x1):
+		if((i >> 2) & 0x1):
 			GPIO.output(stepper1, GPIO.HIGH)
 		else:
 			GPIO.output(stepper1, GPIO.LOW)
-		if((i >> 2) & 0x1):
+		if((i >> 1) & 0x1):
 			GPIO.output(stepper2, GPIO.HIGH)
 		else:
 			GPIO.output(stepper2, GPIO.LOW)
-		if((i >> 3) & 0x1):
+		if((i >> 0) & 0x1):
 			GPIO.output(stepper3, GPIO.HIGH)
 		else:
 			GPIO.output(stepper3, GPIO.LOW)
