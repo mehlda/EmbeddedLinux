@@ -7,7 +7,7 @@ import Adafruit_BBIO.GPIO as GPIO
 import Adafruit_BBIO.ADC as ADC
 import time
 
-
+#prepares the ADC
 ADC.setup()
 
 # define global variables/constants, mainly pin numbers
@@ -15,23 +15,25 @@ ADC.setup()
 ptInputLeft = "P9_39"		# P9_39
 ptInputRight = "P9_40"		# P9_40
 
+# Four stepper motor controls
 stepper0 = "P9_11"		# P9_11
 stepper1 = "P9_13"		# P9_15
 stepper2 = "P9_15"		# P9_13
 stepper3 = "P9_16"		# P9_16
 
+# Button for start control
 startButton = "P9_12"	# P9_12
 
-#use LEDS to mirror stepper output
-led0 = "USR0"
-led1 = "USR1"
-led2 = "USR2"
-led3 = "USR3"
 
+# Movement sequence for stepper motor. Traversing forward is counter-clockwise, 
+# traversing backwards is clockwise
 sequence = (0xC,0x6,0x3,0x9)
+
+# Array traversal values
 clockwise = -1
 counterClockwise = 1
 
+#current step state, to be used for search and follow modes
 state = 0
 
 
@@ -58,6 +60,7 @@ def setup():
 
 # Start
 
+# Moves the stepper one step in the given direction
 def step(direction):
 	global state
 	state = state + direction
@@ -83,10 +86,12 @@ def step(direction):
 		GPIO.output(stepper3, GPIO.LOW)
 	time.sleep(.05)
 
+# revolves the stepper motor in the given direction
 def revolve(direction):
 	for i in range(20):
 		step(direction)
 
+# Returns the lowest position detected
 def searchLowest():
 	lowest_position = 0
 	lowest_value = 4096
@@ -99,12 +104,15 @@ def searchLowest():
 			lowest_value = avg
 			lowest_position = i
 	return lowest_position
-		
+
+#moves the stepper to the lowest position
 def gotoLowest(num_pos):
 	for i in range(20 - num_pos):
 		step(counterClockwise)
 	time.sleep(1)
 
+# Moves the stepper towards the direction of the most intense
+# IR light
 def track():
 	ptLeftValue = ADC.read(ptInputLeft)
 	ptRightValue = ADC.read(ptInputRight)
@@ -112,7 +120,8 @@ def track():
 		step(clockwise)
 	else:
 		step(counterClockwise)
-	
+
+# Runs the code
 def loop():
 	print "starting"
 	#revolve(clockwise) #phase 1 
@@ -124,10 +133,11 @@ def loop():
 		track()
 	
 	
-
+# Run the setup code
 setup()
-if GPIO.event_detected(startButton):
-	print "event detected!"
+
+# Loops here
 while True:
+	# wait for button press to start
 	GPIO.wait_for_edge(startButton, GPIO.RISING)
 	loop()
