@@ -29,6 +29,7 @@ led2 = "USR2"
 led3 = "USR3"
 
 counterClockwise = (0xC,0x6,0x3,0x9)
+clockwise = (0xC,0x9,0x3,0x6)
 
 
 
@@ -53,7 +54,7 @@ def setup():
 
 def loop():
 	print "starting"
-	for i in counterClockwise:
+	for i in clockwise:
 		if((i >> 3) & 0x1):
 			GPIO.output(stepper0, GPIO.HIGH)
 		else:
