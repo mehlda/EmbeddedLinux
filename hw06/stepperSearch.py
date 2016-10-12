@@ -50,12 +50,6 @@ def setup():
 	GPIO.setup(stepper2, GPIO.OUT)
 	GPIO.setup(stepper3, GPIO.OUT)
 
-	# LED outputs
-	GPIO.setup(led0, GPIO.OUT)
-	GPIO.setup(led1, GPIO.OUT)
-	GPIO.setup(led2, GPIO.OUT)
-	GPIO.setup(led3, GPIO.OUT)
-
 
 
 # Start
