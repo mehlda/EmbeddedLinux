@@ -87,11 +87,31 @@ def revolve(direction):
 	for i in range(20):
 		step(direction)
 
+def searchLowest():
+	lowest_position = 0
+	lowest_value = 4096
+	for i in range(20):
+		step(clockwise)
+		pt1val = ADC.read(ptInputLeft)
+		pt2val = ADC.read(ptInputRight)
+		avg = (pt1val + pt2val) / 2
+		if (avg < lowest_value):
+			lowest_value = avg
+			lowest_position = i
+	return lowest_position
+		
+def gotoLowest(num_pos):
+	for i in range(20 - num_pos):
+		step(counterClockwise)
+	time.sleep(1)
+
 def loop():
 	print "starting"
-	revolve(clockwise)
-	revolve(counterClockwise)
-
+	#revolve(clockwise) #phase 1 
+	#revolve(counterClockwise) #Need for phase 1
+	position = searchLowest()
+	gotoLowest(position)
+	
 	print "ending"
 	if GPIO.input(led0):
 		GPIO.output(led0, GPIO.LOW)
