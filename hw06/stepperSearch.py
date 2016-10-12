@@ -59,6 +59,7 @@ def setup():
 # Start
 
 def step(direction):
+	global state
 	state = state + direction
 	if(state < 0):
 		state = 3
@@ -112,7 +113,7 @@ def loop():
 	else:
 		GPIO.output(led3, GPIO.HIGH)
 	time.sleep(.5)
-	
+
 setup()
 if GPIO.event_detected(startButton):
 	print "event detected!"
