@@ -15,10 +15,10 @@ ADC.setup()
 ptInputLeft = "P9_39"		# P9_39
 ptInputRight = "P9_40"		# P9_40
 
-stepper0 = "P9_11"		# P9_11
-stepper1 = "P9_13"		# P9_15
-stepper2 = "P9_15"		# P9_13
-stepper3 = "P9_16"		# P9_16
+stepper0 = "P9_15"		# P9_11
+stepper1 = "P9_16"		# P9_15
+stepper2 = "P9_11"		# P9_13
+stepper3 = "P9_13"		# P9_16
 
 startButton = "P9_12"	# P9_12
 
@@ -28,7 +28,7 @@ led1 = "USR1"
 led2 = "USR2"
 led3 = "USR3"
 
-sequence = (0x3,0x6,0xC,0x9)
+counterClockwise = (0x3,0x6,0xC,0x9)
 
 
 
@@ -53,7 +53,7 @@ def setup():
 
 def loop():
 	print "starting"
-	for i in sequence:
+	for i in counterClockwise:
 		if((i >> 0) & 0x1):
 			GPIO.output(stepper0, GPIO.HIGH)
 		else:
