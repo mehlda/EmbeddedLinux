@@ -90,7 +90,7 @@ def loop():
 	step(clockwise)
 	step(counterClockwise)
 	step(counterClockwise)
-	step(counterClockwise)
+
 	print "ending"
 	if GPIO.input(led0):
 		GPIO.output(led0, GPIO.LOW)
