@@ -105,35 +105,25 @@ def gotoLowest(num_pos):
 		step(counterClockwise)
 	time.sleep(1)
 
+def track():
+	ptLeftValue = ADC.read(ptInputLeft)
+	ptRightValue = ADC.read(ptInputRight)
+	if(ptLeftValue < ptRightValue):
+		step(clockwise)
+	else:
+		step(counterClockwise)
+	
 def loop():
 	print "starting"
 	#revolve(clockwise) #phase 1 
 	#revolve(counterClockwise) #Need for phase 1
 	position = searchLowest()
 	gotoLowest(position)
+
+	while True:
+		track()
 	
-	print "ending"
-	if GPIO.input(led0):
-		GPIO.output(led0, GPIO.LOW)
-	else:
-		GPIO.output(led0, GPIO.HIGH)
-
-	if GPIO.input(led1):
-		GPIO.output(led1, GPIO.LOW)
-	else:
-		GPIO.output(led1, GPIO.HIGH)
-
-	time.sleep(.5)
-	if GPIO.input(led2):
-		GPIO.output(led2, GPIO.LOW)
-	else:
-		GPIO.output(led2, GPIO.HIGH)
-		
-	if GPIO.input(led3):
-		GPIO.output(led3, GPIO.LOW)
-	else:
-		GPIO.output(led3, GPIO.HIGH)
-	time.sleep(.5)
+	
 
 setup()
 if GPIO.event_detected(startButton):
