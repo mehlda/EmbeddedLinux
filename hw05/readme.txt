@@ -35,3 +35,8 @@ on the sparkfun site. Open with a web browser to see the data
 **************
 The kernel compiled successfully by following the provided instructions
 
+==========
+Prof. Yoder's comments
+Looks good and complete.
+
+Grade:  10/10
