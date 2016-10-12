@@ -70,7 +70,7 @@ def loop():
 			GPIO.output(stepper3, GPIO.HIGH)
 		else:
 			GPIO.output(stepper3, GPIO.LOW)
-		time.sleep(.1)
+		time.sleep(1)
 	print "ending"
 	if GPIO.input(led0):
 		GPIO.output(led0, GPIO.LOW)
