@@ -88,7 +88,7 @@ def loop():
 # Start
 
 def step(direction):
-	state += direction
+	state = state + direction
 	if(state < 0):
 		state = 3
 	elif(state > 3):
