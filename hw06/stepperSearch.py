@@ -83,13 +83,14 @@ def step(direction):
 		GPIO.output(stepper3, GPIO.LOW)
 	time.sleep(.05)
 
+def revolve(direction):
+	for i in range(20):
+		step(direction)
+
 def loop():
 	print "starting"
-	step(clockwise)
-	step(clockwise)
-	step(clockwise)
-	step(counterClockwise)
-	step(counterClockwise)
+	revolve(clockwise)
+	revolve(counterClockwise)
 
 	print "ending"
 	if GPIO.input(led0):
