@@ -54,6 +54,34 @@ def setup():
 	GPIO.setup(led2, GPIO.OUT)
 	GPIO.setup(led3, GPIO.OUT)
 
+
+
+# Start
+
+def step(direction):
+	state = state + direction
+	if(state < 0):
+		state = 3
+	elif(state > 3):
+		state = 0
+	if((sequence[state] >> 3) & 0x1):
+		GPIO.output(stepper0, GPIO.HIGH)
+	else:
+		GPIO.output(stepper0, GPIO.LOW)
+	if((sequence[state] >> 2) & 0x1):
+		GPIO.output(stepper1, GPIO.HIGH)
+	else:
+		GPIO.output(stepper1, GPIO.LOW)
+	if((sequence[state] >> 1) & 0x1):
+		GPIO.output(stepper2, GPIO.HIGH)
+	else:
+		GPIO.output(stepper2, GPIO.LOW)
+	if((sequence[state] >> 0) & 0x1):
+		GPIO.output(stepper3, GPIO.HIGH)
+	else:
+		GPIO.output(stepper3, GPIO.LOW)
+	time.sleep(.05)
+
 def loop():
 	print "starting"
 	step(clockwise)
@@ -84,33 +112,7 @@ def loop():
 	else:
 		GPIO.output(led3, GPIO.HIGH)
 	time.sleep(.5)
-
-# Start
-
-def step(direction):
-	state = state + direction
-	if(state < 0):
-		state = 3
-	elif(state > 3):
-		state = 0
-	if((sequence[state] >> 3) & 0x1):
-		GPIO.output(stepper0, GPIO.HIGH)
-	else:
-		GPIO.output(stepper0, GPIO.LOW)
-	if((sequence[state] >> 2) & 0x1):
-		GPIO.output(stepper1, GPIO.HIGH)
-	else:
-		GPIO.output(stepper1, GPIO.LOW)
-	if((sequence[state] >> 1) & 0x1):
-		GPIO.output(stepper2, GPIO.HIGH)
-	else:
-		GPIO.output(stepper2, GPIO.LOW)
-	if((sequence[state] >> 0) & 0x1):
-		GPIO.output(stepper3, GPIO.HIGH)
-	else:
-		GPIO.output(stepper3, GPIO.LOW)
-	time.sleep(.05)
-
+	
 setup()
 if GPIO.event_detected(startButton):
 	print "event detected!"
