@@ -54,11 +54,23 @@ def setup():
 def loop():
 	print "starting"
 	for i in sequence:
-		GPIO.output(stepper0, (i >> 0) & 0x1)
-		GPIO.output(stepper1, (i >> 1) & 0x1)
-		GPIO.output(stepper2, (i >> 2) & 0x1)
-		GPIO.output(stepper3, (i >> 3) & 0x1)
-		time.sleep(.05)
+		if((i >> 0) & 0x1):
+			GPIO.output(stepper0, GPIO.HIGH)
+		else:
+			GPIO.output(stepper0, GPIO.LOW)
+		if((i >> 1) & 0x1):
+			GPIO.output(stepper1, GPIO.HIGH)
+		else:
+			GPIO.output(stepper1, GPIO.LOW)
+		if((i >> 2) & 0x1):
+			GPIO.output(stepper2, GPIO.HIGH)
+		else:
+			GPIO.output(stepper2, GPIO.LOW)
+		if((i >> 3) & 0x1):
+			GPIO.output(stepper3, GPIO.HIGH)
+		else:
+			GPIO.output(stepper3, GPIO.LOW)
+		time.sleep(.1)
 	print "ending"
 	if GPIO.input(led0):
 		GPIO.output(led0, GPIO.LOW)
