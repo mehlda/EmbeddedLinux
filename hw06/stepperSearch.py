@@ -118,13 +118,13 @@ def track():
 # Runs the code
 def loop():
 	print "starting"
-	#revolve(clockwise) #phase 1 
-	#revolve(counterClockwise) #Need for phase 1
-	position = searchLowest()
-	gotoLowest(position)
+	#revolve(clockwise) # phase 1 
+	#revolve(counterClockwise) # phase 1
+	position = searchLowest() # phase 2
+	gotoLowest(position) # phase 3
 
 	while True:
-		track()
+		track() # phase 4
 	
 	
 # Run the setup code
