@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /* gpioNode.js
  * node.js implementation of pin following
  * Author: David Mehl
@@ -7,7 +8,7 @@
 var b = require('bonescript');
 
 // Define the pins
-var leader = 'P9_28';
+var leader = 'P9_26';
 var follower = 'P9_27';
 
 function init(){
@@ -16,7 +17,7 @@ function init(){
 }
 
 function attToggle(){
-	b.attachInterupt(leader, true, b.CHANGE, toggle);
+	b.attachInterrupt(leader, true, b.CHANGE, toggle);
 }
 
 function toggle(){
