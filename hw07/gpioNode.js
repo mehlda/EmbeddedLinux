@@ -8,7 +8,7 @@
 var b = require('bonescript');
 
 // Define the pins
-var leader = 'P9_26';
+var leader = 'P9_24';
 var follower = 'P9_27';
 
 function init(){

@@ -26,7 +26,7 @@
 #define USR2 (1<<23) // GPIO port 1
 #define USR3 (1<<24) // GPIO port 1
 
-#define LEADER (1<<14) //P9_26, GPIO port 0
+#define LEADER (1<<15) //P9_24, GPIO port 0
 #define FOLLOWER (1<<19) //P9_27, GPIO port 3
 
 
