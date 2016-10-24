@@ -34,10 +34,10 @@ int main(){
 
 	//Declare the memory pointers
 	printf("Declaring Variables...\n");
-	volatile void * gpioAddr0, * gpioAddr1;
-	volatile unsigned int *gpioClearDataOutAddr0, * gpioClearDataOutAddr1;
-	volatile unsigned int * gpioSetDataOutAddr0,* gpioSetDataOutAddr1;
-	volatile unsigned int * gpioDataIn0, *gpioDataIn1;
+	volatile void * gpioAddr0, * gpioAddr3;
+	volatile unsigned int *gpioClearDataOutAddr0, * gpioClearDataOutAddr3;
+	volatile unsigned int * gpioSetDataOutAddr0,* gpioSetDataOutAddr3;
+	volatile unsigned int * gpioDataIn0, *gpioDataIn3;
 
 	//Get the memory map file
 	printf("Opening /dev/mem...\n");
