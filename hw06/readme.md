@@ -7,4 +7,8 @@ For hardware, we used a stepper motor and the L293 H-bridge. We hooked 1A of the
 To execute the program, run the following on the command line:
 `python stepperSearch.py`
 
+==========
+Prof. Yoder's comments
+Looks good and complete.
 
+Grade:  10/10
