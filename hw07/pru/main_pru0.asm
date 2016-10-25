@@ -1,6 +1,6 @@
 ;******************************************************************************
 ;* PRU C/C++ Codegen                                              Unix v2.1.2 *
-;* Date/Time created: Tue Oct 25 01:17:16 2016                                *
+;* Date/Time created: Tue Oct 25 14:20:15 2016                                *
 ;******************************************************************************
 	.compiler_opts --abi=eabi --endian=little --hll_source=on --object_format=elf --silicon_version=3 --symdebug:dwarf --symdebug:dwarf_version=3 
 
@@ -53,7 +53,7 @@ $C$DW$3	.dwtag  DW_TAG_variable, DW_AT_name("leader")
 	.dwattr $C$DW$3, DW_AT_type(*$C$DW$T$71)
 	.dwattr $C$DW$3, DW_AT_external
 	.dwattr $C$DW$3, DW_AT_decl_file("main_pru0.c")
-	.dwattr $C$DW$3, DW_AT_decl_line(0x36)
+	.dwattr $C$DW$3, DW_AT_decl_line(0x37)
 	.dwattr $C$DW$3, DW_AT_decl_column(0x0b)
 	.global	||follower||
 	.sect	".rodata"
@@ -68,10 +68,10 @@ $C$DW$4	.dwtag  DW_TAG_variable, DW_AT_name("follower")
 	.dwattr $C$DW$4, DW_AT_type(*$C$DW$T$71)
 	.dwattr $C$DW$4, DW_AT_external
 	.dwattr $C$DW$4, DW_AT_decl_file("main_pru0.c")
-	.dwattr $C$DW$4, DW_AT_decl_line(0x37)
+	.dwattr $C$DW$4, DW_AT_decl_line(0x38)
 	.dwattr $C$DW$4, DW_AT_decl_column(0x0b)
-;	optpru /tmp/02275AaJnoH /tmp/02275s7wREe 
-;	acpiapru -@/tmp/02275lpqvd8 
+;	optpru /tmp/02360uIzBr1 /tmp/02360iKYaLS 
+;	acpiapru -@/tmp/02360s6N1LU 
 	.sect	".text:main"
 	.clink
 	.global	||main||
@@ -82,17 +82,17 @@ $C$DW$5	.dwtag  DW_TAG_subprogram, DW_AT_name("main")
 	.dwattr $C$DW$5, DW_AT_TI_symbol_name("main")
 	.dwattr $C$DW$5, DW_AT_external
 	.dwattr $C$DW$5, DW_AT_TI_begin_file("main_pru0.c")
-	.dwattr $C$DW$5, DW_AT_TI_begin_line(0x39)
+	.dwattr $C$DW$5, DW_AT_TI_begin_line(0x3a)
 	.dwattr $C$DW$5, DW_AT_TI_begin_column(0x06)
 	.dwattr $C$DW$5, DW_AT_decl_file("main_pru0.c")
-	.dwattr $C$DW$5, DW_AT_decl_line(0x39)
+	.dwattr $C$DW$5, DW_AT_decl_line(0x3a)
 	.dwattr $C$DW$5, DW_AT_decl_column(0x06)
 	.dwattr $C$DW$5, DW_AT_TI_max_frame_size(0x00)
-	.dwpsn	file "main_pru0.c",line 57,column 17,is_stmt,address ||main||,isa 0
+	.dwpsn	file "main_pru0.c",line 58,column 17,is_stmt,address ||main||,isa 0
 
 	.dwfde $C$DW$CIE, ||main||
 ;----------------------------------------------------------------------
-;  57 | void main(void) {                                                      
+;  58 | void main(void) {                                                      
 ;----------------------------------------------------------------------
 
 ;***************************************************************
@@ -107,61 +107,63 @@ $C$DW$5	.dwtag  DW_TAG_subprogram, DW_AT_name("main")
 ||main||:
 ;* --------------------------------------------------------------------------*
 	.dwcfi	cfa_offset, 0
-	.dwpsn	file "main_pru0.c",line 59,column 2,is_stmt,isa 0
+	.dwpsn	file "main_pru0.c",line 60,column 2,is_stmt,isa 0
 ;----------------------------------------------------------------------
-;  59 | CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;                                    
-;  60 | while(1){                                                              
+;  60 | CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;                                    
+;  63 | //Wait until the input rises, then output high                         
+;  64 | //Wait until the input falls, then output low                          
+;  65 | while(1){                                                              
 ;----------------------------------------------------------------------
-        LBCO      &r0, __PRU_CREG_PRU_CFG, $CSBREL(||CT_CFG||+4), 4 ; [ALU_PRU] |59| CT_CFG
-        CLR       r0, r0, 0x00000004    ; [ALU_PRU] |59| 
-        SBCO      &r0, __PRU_CREG_PRU_CFG, $CSBREL(||CT_CFG||+4), 4 ; [ALU_PRU] |59| CT_CFG
+        LBCO      &r0, __PRU_CREG_PRU_CFG, $CSBREL(||CT_CFG||+4), 4 ; [ALU_PRU] |60| CT_CFG
+        CLR       r0, r0, 0x00000004    ; [ALU_PRU] |60| 
+        SBCO      &r0, __PRU_CREG_PRU_CFG, $CSBREL(||CT_CFG||+4), 4 ; [ALU_PRU] |60| CT_CFG
 ;* --------------------------------------------------------------------------*
 ;*   BEGIN LOOP ||$C$L1||
 ;*
-;*   Loop source line                : 61
-;*   Loop closing brace source line  : 61
+;*   Loop source line                : 66
+;*   Loop closing brace source line  : 66
 ;*   Known Minimum Trip Count        : 1
 ;*   Known Maximum Trip Count        : 4294967295
 ;*   Known Max Trip Count Factor     : 1
 ;* --------------------------------------------------------------------------*
 ||$C$L1||:    
-	.dwpsn	file "main_pru0.c",line 61,column 9,is_stmt,isa 0
+	.dwpsn	file "main_pru0.c",line 66,column 9,is_stmt,isa 0
 ;----------------------------------------------------------------------
-;  61 | while(!(__R31&(1<<leader)));                                           
+;  66 | while(!(__R31&(1<<leader)));                                           
 ;----------------------------------------------------------------------
-        QBBC      ||$C$L1||, r31, 0x10  ; [ALU_PRU] |61| 
+        QBBC      ||$C$L1||, r31, 0x10  ; [ALU_PRU] |66| 
 ;* --------------------------------------------------------------------------*
-	.dwpsn	file "main_pru0.c",line 62,column 3,is_stmt,isa 0
+	.dwpsn	file "main_pru0.c",line 67,column 3,is_stmt,isa 0
 ;----------------------------------------------------------------------
-;  62 | __R30 ^= 1<<follower;                                                  
+;  67 | __R30 |= 1<<follower;                                                  
 ;----------------------------------------------------------------------
-        XOR       r30, r30, 0x20        ; [ALU_PRU] |62| 
+        SET       r30, r30, 0x00000005  ; [ALU_PRU] |67| 
 ;* --------------------------------------------------------------------------*
 ;*   BEGIN LOOP ||$C$L2||
 ;*
-;*   Loop source line                : 63
-;*   Loop closing brace source line  : 63
+;*   Loop source line                : 68
+;*   Loop closing brace source line  : 68
 ;*   Known Minimum Trip Count        : 1
 ;*   Known Maximum Trip Count        : 4294967295
 ;*   Known Max Trip Count Factor     : 1
 ;* --------------------------------------------------------------------------*
 ||$C$L2||:    
-	.dwpsn	file "main_pru0.c",line 63,column 3,is_stmt,isa 0
+	.dwpsn	file "main_pru0.c",line 68,column 3,is_stmt,isa 0
 ;----------------------------------------------------------------------
-;  63 | while(__R31&(1<<leader));                                              
+;  68 | while(__R31&(1<<leader));                                              
 ;----------------------------------------------------------------------
-        QBBS      ||$C$L2||, r31, 0x10  ; [ALU_PRU] |63| 
+        QBBS      ||$C$L2||, r31, 0x10  ; [ALU_PRU] |68| 
 ;* --------------------------------------------------------------------------*
-	.dwpsn	file "main_pru0.c",line 64,column 3,is_stmt,isa 0
+	.dwpsn	file "main_pru0.c",line 69,column 3,is_stmt,isa 0
 ;----------------------------------------------------------------------
-;  64 | __R30 ^= 1<<follower;                                                  
+;  69 | __R30 ^= 1<<follower;                                                  
 ;----------------------------------------------------------------------
-        XOR       r30, r30, 0x20        ; [ALU_PRU] |64| 
-	.dwpsn	file "main_pru0.c",line 60,column 8,is_stmt,isa 0
-        JMP       ||$C$L1||             ; [ALU_PRU] |60| 
+        XOR       r30, r30, 0x20        ; [ALU_PRU] |69| 
+	.dwpsn	file "main_pru0.c",line 65,column 8,is_stmt,isa 0
+        JMP       ||$C$L1||             ; [ALU_PRU] |65| 
 ;* --------------------------------------------------------------------------*
 	.dwattr $C$DW$5, DW_AT_TI_end_file("main_pru0.c")
-	.dwattr $C$DW$5, DW_AT_TI_end_line(0x42)
+	.dwattr $C$DW$5, DW_AT_TI_end_line(0x47)
 	.dwattr $C$DW$5, DW_AT_TI_end_column(0x01)
 	.dwendentry
 	.dwendtag $C$DW$5

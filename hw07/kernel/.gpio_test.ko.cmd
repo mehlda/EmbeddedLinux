@@ -1,0 +1,1 @@
+cmd_/root/EmbeddedLinux/hw07/kernel/gpio_test.ko := ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /root/EmbeddedLinux/hw07/kernel/gpio_test.ko /root/EmbeddedLinux/hw07/kernel/gpio_test.o /root/EmbeddedLinux/hw07/kernel/gpio_test.mod.o
