@@ -62,21 +62,15 @@ static int __init ebbgpio_init(void){
 
    // GPIO numbers and IRQ numbers are not the same! This function performs the mapping for us
    irqNumber = gpio_to_irq(leader);
-   irqNumber1 = gpio_to_irq(leader);
    printk(KERN_INFO "GPIO_TEST: The button is mapped to IRQ: %d\n", irqNumber);
 
    // This next call requests an interrupt line
    result = request_irq(irqNumber,             // The interrupt number requested
                         (irq_handler_t) ebbgpio_irq_handler, // The pointer to the handler function below
-                        IRQF_TRIGGER_RISING,   // Interrupt on rising edge (button press, not release)
+                        IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,   // Interrupt on rising edge (button press, not release)
                         "ebb_gpio_handler",    // Used in /proc/interrupts to identify the owner
                         NULL);                 // The *dev_id for shared interrupt lines, NULL is okay
-   // This next call requests an interrupt line
-   result = request_irq(irqNumber1,             // The interrupt number requested
-                        (irq_handler_t) ebbgpio_irq_handler1, // The pointer to the handler function below
-                        IRQF_TRIGGER_FALLING,   // Interrupt on rising edge (button press, not release)
-                        "ebb_gpio_handler1",    // Used in /proc/interrupts to identify the owner
-                        NULL);                 // The *dev_id for shared interrupt lines, NULL is okay
+
 
    printk(KERN_INFO "GPIO_TEST: The interrupt request result is: %d\n", result);
    return result;
@@ -114,10 +108,6 @@ static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct 
    return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
 }
 
-static irq_handler_t  ebbgpio_irq_handler1(unsigned int irq, void *dev_id, struct pt_regs *regs){                         // Invert the output state on each button press
-   gpio_set_value(follower, followerOff);          // Set the physical output accordingly
-   return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
-}
 
 /// This next calls are  mandatory -- they identify the initialization function
 /// and the cleanup function (as above).
