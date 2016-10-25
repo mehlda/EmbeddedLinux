@@ -61,7 +61,7 @@ void main(void) {
 		while(!(__R31&(1<<leader))); 
 		__R30 ^= 1<<follower;
 		while(__R31&(1<<leader));
-		__R30 ^= 1<<follwer;
+		__R30 ^= 1<<follower;
 	}
 }
 
