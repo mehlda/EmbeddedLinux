@@ -7,8 +7,11 @@ This directory contains the directories 'kernel', 'mmap', and 'pru'.
 ###MethodResults.pdf:
 This file contains the documentation and data on the comparison between the 4 different methods of GPIO copying.
 
-###scope.png:
+###scope_mmap.png:
 This is a scope image captured during the MMAP testing.
+
+###scope_pru.png:
+This is the scope image captured during the PRU testing.
 
 ###gpioNode.js:
 Run this program by executing `./gpioNode.js`
