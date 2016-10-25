@@ -51,19 +51,17 @@ extern void start(int time);
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
+const int leader = 16;
+const int follower = 5;
+
 void main(void) {
     /* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
-
-	while(!(__R31&(1<<3))) {
-		__R30 ^= 1<<5;
-		__delay_cycles(TIME);
-		// __R30 &= ~(1<<5);
-		// __delay_cycles(TIME);
+	while(1){
+		while(!(__R31&(1<<leader))); 
+		__R30 ^= 1<<follower;
+		while(__R31&(1<<leader));
+		__R30 ^= 1<<follwer;
 	}
-	__delay_cycles(TIME);	// Give some time for press to release
-	// Call assembly language
- 	start(TIME);
-	__halt();
 }
 
