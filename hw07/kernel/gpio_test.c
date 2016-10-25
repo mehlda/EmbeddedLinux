@@ -115,7 +115,7 @@ static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct 
 }
 
 static irq_handler_t  ebbgpio_irq_handler1(unsigned int irq, void *dev_id, struct pt_regs *regs){                         // Invert the output state on each button press
-   gpio_set_value(follower, followerOff);          // Set the physical output accordingly
+   gpio_set_value(follower, !followerOn);          // Set the physical output accordingly
    return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
 }
 
