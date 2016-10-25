@@ -1,0 +1,41 @@
+PRU Assembler Unix v2.1.2 Tue Oct 25 01:17:17 2016
+
+Tools Copyright (c) 2012-2015 Texas Instruments Incorporated
+pru0-ledButton.asm                                                   PAGE    1
+
+       1; PRUSS program to flash a LED on P9_27 (pru0_pru_r30_5) until a button 
+       2; that is connected to P9_28 (pru0_pru_r31_3 is pressed). This program 
+       3; was writen by Derek Molloy for the book Exploring BeagleBone
+       4; Modified by Mark A. Yoder to use clpru and remote proc
+       5
+       6; Passed the number of cycles to delay in R14
+       7; Register conventions are in "PRU Optimizing C/C++ Compiler v2.1 User's Guide"
+       8; http://www.ti.com/lit/ug/spruhv7a/spruhv7a.pdf
+       9; Section 6.3, Page 105
+      10
+      11        .clink
+      12        .global start
+      13 00000000                 start:
+      14        ; lsr           r14, r14, 1             ; Divide number of delay cycles by 2 since each loop t
+      15 00000000 0000001F05FEFE          set             r30, r30.t5     ; turn on the output pin (LED on)
+      16 00000004 00000010EEEEE0          mov             r0, r14         ; store the length of the delay in REG0
+      17
+      18 00000008                 delayon:
+      19 00000008 0000000501E0E0          sub             r0, r0, 1        ; Decrement REG0 by 1
+      20 0000000c 0000006F00E0FF          qbne    delayon, r0, 0   ; Loop to DELAYON, unless REG0=0
+      21
+      22 00000010                 ledoff:
+      23 00000010 0000001D05FEFE          clr             r30, r30.t5     ; clear the output bin (LED off)
+      24 00000014 00000010EEEEE0          mov             r0, r14         ; Reset REG0 to the length of the delay
+      25
+      26 00000018                 delayoff:
+      27 00000018 0000000501E0E0          sub             r0, r0, 1        ; decrement REG0 by 1
+      28 0000001c 0000006F00E0FF          qbne    delayoff, r0, 0  ; Loop to DELAYOFF, unless REG0=0
+      29
+      30 00000020 000000CF03FFF8          qbbc    start, r31, 3    ; is the button pressed? If not, loop
+      31
+      32 00000024                 end:
+      33 00000024 00000020E30000          jmp             r3                              ; r3 contains the return address
+      34                                                        ; Return value is in r14
+
+No Assembly Errors, No Assembly Warnings
