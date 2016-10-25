@@ -12,7 +12,7 @@ This is a scope image captured during the MMAP testing.
 
 ###gpioNode.js:
 Run this program by executing `./gpioNode.js`
-This is the Node.js program that copies P9_24 to P9_27 using interrupts. Information on its performance can be found in MethodResults.pdf
+This is the Node.js program that copies P9_24 to P9_27 using interrupts. Information on its performance can be found in MethodResults.pdf. The program is set to kill itself after 10 seconds to avoid locking up the CPU during testing. Be aware that a high enough frequency during testing will lock up the CPU due to the interrupts used by this program. To recover, turn off the function generator and the CPU should become usable again.
 
 
 ##hw07/mmap :
@@ -55,3 +55,6 @@ This file contains the source code for the GPIO copy.
 
 ###other files:
 The other files are either used as includes for compiling the code or are unused. I have included them as they were used in the original program that I have modified to fulfill a different purpose.
+
+##Testing Procedure:
+To test the above programs, a 1 kHz square wave was placed on P9_24 and both this input and the output on P9_27 were monitored using an oscilloscope. The delay between a rise in the input and the corresponding rise in the output were measured, as was the delay on the falling edge. CPU usage was determined using `htop` and the average was determined by sampling several waveforms and determining the typical delay. Full results can be found in MethodResults.pdf
