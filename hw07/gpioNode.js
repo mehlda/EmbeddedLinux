@@ -29,3 +29,8 @@ function toggle(){
 }
 
 init();
+
+function detach(){
+	b.detachInterrupt(leader);
+}
+setTimeout(detach, 10000);
