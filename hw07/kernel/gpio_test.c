@@ -1,12 +1,13 @@
 /**
  * @file   gpio_test.c
- * @author Derek Molloy
- * @date   19 April 2015
+ * @author Derek Molloy, Modified by David Mehl
+ * @date   19 April 2015, 25 October 2016
  * @brief  A kernel module for controlling a GPIO LED/button pair. The device mounts devices via
  * sysfs /sys/class/gpio/gpio115 and gpio49. Therefore, this test LKM circuit assumes that an LED
  * is attached to GPIO 49 which is on P9_23 and the button is attached to GPIO 115 on P9_27. There
  * is no requirement for a custom overlay, as the pins are in their default mux mode states.
  * @see http://www.derekmolloy.ie/
+ * The code now copies P9_24 to P9_27
 */
 
 #include <linux/init.h>
@@ -16,15 +17,15 @@
 #include <linux/interrupt.h>            // Required for the IRQ code
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Derek Molloy");
-MODULE_DESCRIPTION("A Button/LED test driver for the BBB");
+MODULE_AUTHOR("Derek Molloy, David Mehl");
+MODULE_DESCRIPTION("GPIO Pin Copy Module");
 MODULE_VERSION("0.1");
 
-static unsigned int follower = 115;       ///< hard coding the LED gpio for this example to P9_27 (GPIO115)
-static unsigned int leader = 15;   ///< hard coding the button gpio for this example to P9_27 (GPIO115)
+static unsigned int follower = 115;       ///< hard coding the follower gpio for this example to P9_27 (GPIO115)
+static unsigned int leader = 15;   ///< hard coding the leader gpio for this example to P9_24 (GPIO15)
 static unsigned int irqNumber;          ///< Used to share the IRQ number within this file
 static unsigned int numberPresses = 0;  ///< For information, store the number of button presses
-static bool	    followerOn = 0;          ///< Is the LED on or off? Used to invert its state (off by default)
+static bool	    followerOn = 0;          ///< Is the output on or off? Used to invert its state (off by default)
 
 /// Function prototype for the custom IRQ handler function -- see below for the implementation
 static irq_handler_t  ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs);
@@ -52,7 +53,7 @@ static int __init ebbgpio_init(void){
    gpio_export(follower, false);             // Causes gpio49 to appear in /sys/class/gpio
 			                    // the bool argument prevents the direction from being changed
    gpio_request(leader, "sysfs");       // Set up the leader
-   gpio_direction_input(leader);        // Set the button GPIO to be an input
+   gpio_direction_input(leader);        // Set the leader GPIO to be an input
    gpio_export(leader, false);          // Causes gpio115 to appear in /sys/class/gpio
 			                    // the bool argument prevents the direction from being changed
    // Perform a quick test to see that the button is working as expected on LKM load
@@ -81,12 +82,12 @@ static int __init ebbgpio_init(void){
 static void __exit ebbgpio_exit(void){
    printk(KERN_INFO "GPIO_TEST: The button state is currently: %d\n", gpio_get_value(leader));
    printk(KERN_INFO "GPIO_TEST: The button was pressed %d times\n", numberPresses);
-   gpio_set_value(follower, 0);              // Turn the LED off, makes it clear the device was unloaded
-   gpio_unexport(follower);                  // Unexport the LED GPIO
+   gpio_set_value(follower, 0);              // Turn the follower off, makes it clear the device was unloaded
+   gpio_unexport(follower);                  // Unexport the follower GPIO
    free_irq(irqNumber, NULL);               // Free the IRQ number, no *dev_id required in this case
-   gpio_unexport(leader);               // Unexport the Button GPIO
-   gpio_free(follower);                      // Free the LED GPIO
-   gpio_free(leader);                   // Free the Button GPIO
+   gpio_unexport(leader);               // Unexport the leader GPIO
+   gpio_free(follower);                      // Free the follower GPIO
+   gpio_free(leader);                   // Free the leader GPIO
    printk(KERN_INFO "GPIO_TEST: Goodbye from the LKM!\n");
 }
 
@@ -101,8 +102,8 @@ static void __exit ebbgpio_exit(void){
  *  return returns IRQ_HANDLED if successful -- should return IRQ_NONE otherwise.
  */
 static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs){
-   followerOn = !followerOn;                          // Invert the LED state on each button press
-   gpio_set_value(follower, followerOn);          // Set the physical LED accordingly
+   followerOn = !followerOn;                          // Invert the output state on each button press
+   gpio_set_value(follower, followerOn);          // Set the physical output accordingly
    return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
 }
 

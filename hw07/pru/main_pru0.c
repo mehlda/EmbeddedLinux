@@ -1,5 +1,6 @@
 /*
  * Source Modified by Zubeen Tolani < ZeekHuge - zeekhuge@gmail.com >
+ * Modified by David Mehl
  * Based on the examples distributed by TI
  *
  * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com/
@@ -57,9 +58,13 @@ const int follower = 5;
 void main(void) {
     /* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
+
+
+	//Wait until the input rises, then output high
+	//Wait until the input falls, then output low
 	while(1){
 		while(!(__R31&(1<<leader))); 
-		__R30 ^= 1<<follower;
+		__R30 |= 1<<follower;
 		while(__R31&(1<<leader));
 		__R30 ^= 1<<follower;
 	}

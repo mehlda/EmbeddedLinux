@@ -59,7 +59,7 @@ int main(){
 	gpioDataIn0 = gpioAddr0 + GPIO_DATAIN;
 	gpioDataIn3 = gpioAddr3 + GPIO_DATAIN;
 
-	//Check the two switches/buttons, and set the usr leds when appropriate
+	//Check the input and set the output when appropriate
 	printf("Starting...\n");
 	while(1){
 		if(*gpioDataIn0 & LEADER){
