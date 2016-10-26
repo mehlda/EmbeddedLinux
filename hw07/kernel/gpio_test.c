@@ -21,7 +21,7 @@ MODULE_AUTHOR("Derek Molloy, David Mehl");
 MODULE_DESCRIPTION("GPIO Pin Copy Module");
 MODULE_VERSION("0.1");
 
-static unsigned int follower = 113;       ///< hard coding the follower gpio for this example to P9_27 (GPIO115)
+static unsigned int follower = 115;       ///< hard coding the follower gpio for this example to P9_27 (GPIO115)
 static unsigned int leader = 15;   ///< hard coding the leader gpio for this example to P9_24 (GPIO15)
 static unsigned int irqNumber;          ///< Used to share the IRQ number within this file
 static unsigned int numberPresses = 0;  ///< For information, store the number of button presses
