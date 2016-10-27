@@ -67,3 +67,9 @@ The other files are either used as includes for compiling the code or are unused
 
 ##Testing Procedure:
 To test the above programs, a 1 kHz square wave was placed on P9_24 and both this input and the output on P9_27 were monitored using an oscilloscope. The delay between a rise in the input and the corresponding rise in the output were measured, as was the delay on the falling edge. CPU usage was determined using `htop` and the average delay was determined by sampling several waveforms and determining the typical delay. Full results can be found in MethodResults.pdf
+
+==========
+Prof. Yoder's comments
+Good report. 
+
+Grade:  10/10
